@@ -15,3 +15,4 @@ class Tweet(models.Model):
     last_updated = models.DateTimeField(auto_now=True, editable=False)
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     deleted = models.BooleanField(default=False)
+    hibernated = models.BooleanField(default=False)
