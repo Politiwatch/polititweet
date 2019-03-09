@@ -5,6 +5,7 @@ class User(models.Model):
     user_id = models.BigIntegerField(primary_key=True)
     full_data = JSONField()
     modified_date = models.DateTimeField(auto_now=True)
+    priority = models.IntegerField(default=1)
 
 class Tweet(models.Model):
     tweet_id = models.BigIntegerField(primary_key=True)
