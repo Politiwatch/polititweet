@@ -30,7 +30,7 @@ ALLOWED_HOSTS = []
 TWITTER_CREDENTIALS = {
     "consumer_key": "",
     "consumer_secret": "",
-    "access_key": "",
+    "access_token": "",
     "access_secret": ""
 }
 
