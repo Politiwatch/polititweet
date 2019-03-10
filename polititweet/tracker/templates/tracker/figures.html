@@ -8,14 +8,14 @@ Monitored Figures | PolitiTweet
 <div class="columns is-vcentered">
     <div class="column">
         <h1 class="title">Figures</h1>
-        <p class="subtitle">PolitiTweet currently tracks <strong>{{figures|length}}</strong> public figures.</p>
+        <p class="subtitle">PolitiTweet currently tracks <strong>{{all_figures}}</strong> public figures.</p>
     </div>
     <div class="column is-narrow">
         <div class="search">
-            <form class="control">
+            <form class="control" method="GET" action="{% url 'figures' %}">
                 <div class="field has-addons">
                     <div class="control">
-                        <input class="input" type="text" id="search" placeholder="Search for a figure...">
+                        <input class="input" type="text" name="search" placeholder="Search for a figure..." value="{{search_query}}">
                     </div>
                     <div class="control">
                         <button class="button is-dark" type="submit">
@@ -30,6 +30,12 @@ Monitored Figures | PolitiTweet
 {% endblock %}
 
 {% block content %}
+
+{% if search_query %}
+<p class="is-medium">Your search for <strong>{{search_query}}</strong> yielded <strong>{{figures|length}}</strong> results. <a href="{% url 'figures' %}">Clear search.</a></p>
+<br>
+<br>
+{% endif %}
 
 <div class="grid">
     {% for figure in figures %}

@@ -16,14 +16,36 @@ def _get(request, param, default=None):
     return value
 
 
+def _search(query, *items):
+    tokens = query.split(" ")
+    unused_tokens = [token for token in tokens]
+    for token in tokens:
+        for item in items:
+            if token.lower() in item.lower():
+                if token in unused_tokens:
+                    unused_tokens.remove(token)
+    return len(unused_tokens) == 0
+
+
 def index(request):
     context = {}
     return render(request, "tracker/index.html", context)
 
 
 def figures(request):
+    figures = User.objects.all()
+    search = _get(request, "search", default="")
+    matched_figures = []
+    if len(search) > 0:
+        for figure in figures:
+            if _search(search, figure.full_data["name"], figure.full_data["screen_name"], figure.full_data["description"]):
+                matched_figures.append(figure)
+    else:
+        matched_figures = figures
     context = {
-        "figures": User.objects.all()
+        "all_figures": User.objects.count(),
+        "figures": matched_figures,
+        "search_query": search
     }
     return render(request, "tracker/figures.html", context)
 
