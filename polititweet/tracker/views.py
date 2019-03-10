@@ -1,5 +1,5 @@
 import math
-from django.shortcuts import render
+from django.shortcuts import render, get_object_or_404
 from django.http import HttpResponse, Http404
 from .models import User, Tweet
 
@@ -52,7 +52,13 @@ def figures(request):
 
 def figure(request):
     user_id = _get(request, "account")
-    return HttpResponse("You are looking at the figure page for %s." % id)
+    user = get_object_or_404(User, user_id=user_id)
+    context = {
+        "figure": user,
+        "active": "overview",
+        "tweets": Tweet.objects.filter(user=user, deleted=True).order_by("-modified_date")[:5]
+    }
+    return render(request, 'tracker/figure.html', context)
 
 
 def tweets(request):
