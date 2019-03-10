@@ -12,7 +12,6 @@ class Tweet(models.Model):
     tweet_id = models.BigIntegerField(primary_key=True)
     full_data = JSONField()
     modified_date = models.DateTimeField(auto_now=True)
-    last_updated = models.DateTimeField(auto_now=True, editable=False)
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     deleted = models.BooleanField(default=False)
     hibernated = models.BooleanField(default=False)

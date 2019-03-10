@@ -1,0 +1,16 @@
+.figure-card {
+    width: 100%;
+    margin: 16px;
+}
+
+.grid {
+    display: flex;
+    flex-flow: row;
+    flex-wrap: wrap;
+}
+
+@media screen and (min-width: 920px) {
+    .figure-card {
+        width: 400px;
+    }
+}

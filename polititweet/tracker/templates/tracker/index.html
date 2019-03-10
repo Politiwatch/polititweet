@@ -1,0 +1,40 @@
+{% extends 'tracker/base.html' %}
+
+{% block content %}
+
+<section class="hero is-dark is-medium">
+    <div class="hero-head">
+        {% include 'tracker/navbar.html' %}
+    </div>
+
+    <div class="hero-body">
+        <div class="container has-text-centered">
+            <p class="title">
+                Welcome to the new PolitiTweet.
+            </p>
+            <p class="subtitle">
+                Monitoring 1,000 celebrities, politicians, and public figures, scanning for silent retractions and deleted tweets. See what they don't want you to see.
+            </p>
+        </div>
+    </div>
+
+    <div class="hero-foot">
+        <nav class="tabs is-boxed is-fullwidth">
+            <div class="container">
+                <ul>
+                    <li class="is-active">
+                        <a>Home</a>
+                    </li>
+                    <li>
+                        <a>Figures</a>
+                    </li>
+                    <li>
+                        <a>About</a>
+                    </li>
+                </ul>
+            </div>
+        </nav>
+    </div>
+</section>
+
+{% endblock %}

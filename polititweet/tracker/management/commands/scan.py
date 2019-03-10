@@ -25,37 +25,42 @@ class Command(BaseCommand):
         self.stdout.write("Starting update on %s users..." %
                           str(len(following)))
         completed = 0
+        flagged_accounts = [user.user_id for user in User.objects.filter(flagged=True)]
         random.shuffle(following)  # shuffle order to get even coverage
-        for id in following:
-            user_data = None
+        for id in flagged_accounts + [id for id in following if id not in flagged_accounts]:
             try:
-                user_data = api.get_user(id)
-            except tweepy.error.TweepError as e:
-                self.stderr.write(str(e))
-                continue  # important to continue, and to _not_ mark all tweets as deleted
-            try:
-                user = User.objects.get(user_id=id)
-                self.stdout.write(
-                    "User @%s already exists; updating record..." % user_data.screen_name)
-                user.full_data = user_data._json
-                user.save()
-                upsertTweets(api.user_timeline(
-                    user_id=user.user_id, count=200), user)
-            except User.DoesNotExist as e:  # does not exist; TODO: use more specific error
-                self.stdout.write(
-                    "User @%s does not exist; creating record..." % user_data.screen_name)
-                user = User(user_id=id, full_data=user_data._json)
-                user.save()
-                upsertTweets(getAllStatuses(api, user), user)
-            if hasAccountDeletedTweet(api, user, user_data):
-                self.stdout.write(
-                    "Also checking @%s for deleted tweets..." % user_data.screen_name)
-                deleted_count = scanForDeletedTweet(api, user)
-                self.stdout.write(self.style.SUCCESS("Found %s new deleted tweets for @%s" % (
-                    str(deleted_count), user_data.screen_name)))
-                user.flagged = False
-                user.save()
-            completed += 1
+                user_data = None
+                try:
+                    user_data = api.get_user(id)
+                except tweepy.error.TweepError as e:
+                    self.stderr.write(str(e))
+                    continue  # important to continue, and to _not_ mark all tweets as deleted
+                try:
+                    user = User.objects.get(user_id=id)
+                    self.stdout.write(
+                        "User @%s already exists; updating record..." % user_data.screen_name)
+                    user.full_data = user_data._json
+                    user.save()
+                    upsertTweets(api.user_timeline(
+                        user_id=user.user_id, count=200), user)
+                except User.DoesNotExist as e:  # does not exist; TODO: use more specific error
+                    self.stdout.write(
+                        "User @%s does not exist; creating record..." % user_data.screen_name)
+                    user = User(user_id=id, full_data=user_data._json)
+                    user.save()
+                    upsertTweets(getAllStatuses(api, user), user)
+                if hasAccountDeletedTweet(api, user, user_data):
+                    self.stdout.write(
+                        "Also checking @%s for deleted tweets..." % user_data.screen_name)
+                    deleted_count = scanForDeletedTweet(api, user)
+                    self.stdout.write(self.style.SUCCESS("Found %s new deleted tweets for @%s" % (
+                        str(deleted_count), user_data.screen_name)))
+                    user.flagged = False
+                    user.save()
+                completed += 1
+            except Exception as e:
+                self.stderr.write("Encountered an error while scanning %s: %s" % (str(id), str(e)))
+                continue
             self.stdout.write(self.style.SUCCESS("Successfully updated @%s (%s/%s)." %
                                                  (user_data.screen_name, str(completed), str(len(following)))))
         self.stdout.write(self.style.SUCCESS(
@@ -67,8 +72,13 @@ def hasAccountDeletedTweet(api, user_db, user_data):
         return True
     if user_data.statuses_count < user_db.full_data["statuses_count"]:
         return True
+    latest_known_status = 0
+    try:
+        latest_known_status = user_db.full_data["status"]["id"]
+    except: # not the prettiest...
+        pass
     tweets_since = getAllStatuses(
-        api, user_db, since=user_db.full_data["status"]["id"])
+        api, user_db, since=latest_known_status)
     return user_data.statuses_count - len(tweets_since) < user_db.full_data["statuses_count"]
 
 
@@ -98,7 +108,7 @@ def getAllStatuses(api, user, since=None):
 
 
 def scanForDeletedTweet(api, user):
-    known_tweets = Tweet.objects.filter(user=user)
+    known_tweets = Tweet.objects.filter(user=user, hibernated=False)
     found_tweets = sorted(getAllStatuses(api, user), key=lambda k: k.id)
     found_ids = [tweet.id for tweet in found_tweets]
     minimum_id = found_tweets[0].id

@@ -1,0 +1,57 @@
+{% extends 'tracker/content.html' %}
+
+{% block title %}
+Monitored Figures | PolitiTweet
+{% endblock %}
+
+{% block precontent %}
+<div class="columns is-vcentered">
+    <div class="column">
+        <h1 class="title">Figures</h1>
+        <p class="subtitle">PolitiTweet currently tracks <strong>{{figures|length}}</strong> public figures.</p>
+    </div>
+    <div class="column is-narrow">
+        <div class="search">
+            <form class="control">
+                <div class="field has-addons">
+                    <div class="control">
+                        <input class="input" type="text" id="search" placeholder="Search for a figure...">
+                    </div>
+                    <div class="control">
+                        <button class="button is-dark" type="submit">
+                            Search
+                        </button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block content %}
+
+<div class="grid">
+    {% for figure in figures %}
+    <div class="box figure-card">
+        <article class="media">
+            <div class="media-left">
+                <figure class="image is-48x48">
+                    <img class="is-rounded" src="{{figure.full_data.profile_image_url}}" alt="Profile Image">
+                </figure>
+            </div>
+            <div class="media-content">
+                <div class="content">
+                    <p>
+                        <strong>{{figure.full_data.name}}</strong> <small>@{{figure.full_data.screen_name}}</small>
+                        <br>
+                        {{figure.full_data.description}}
+                    </p>
+                </div>
+            </div>
+        </article>
+    </div>
+    {% endfor %}
+</div>
+
+{% endblock %}
