@@ -87,3 +87,12 @@ footer {
     padding-bottom: 32px;
     padding-top: 32px;
 }
+
+.textpage {
+    max-width: 40em;
+    margin: auto;
+}
+
+.item {
+    margin-bottom: 48px;
+}
