@@ -18,8 +18,11 @@
 </head>
 
 <body>
-    {% block body %}
-    {% endblock %}
+    <div class="super-container">
+        {% block body %}
+        {% endblock %}
+    </div>
+    {% include 'tracker/footer.html' %}
 </body>
 
 </html>

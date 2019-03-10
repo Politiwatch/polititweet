@@ -16,6 +16,7 @@ def _get(request, param, default=None):
             return default
     return value
 
+
 def _first_or_none(obj):
     try:
         return obj[0]
@@ -35,7 +36,20 @@ def _search(query, *items):
 
 
 def index(request):
-    context = {}
+    deleted = Tweet.objects.filter(deleted=True).order_by("-modified_date")
+    tweets = Tweet.objects.order_by("-tweet_id")
+    deletors = User.objects.order_by("-deleted_count")
+    total_figures = deletors.count()
+    total_tweets = tweets.count()
+    total_deleted = deletors.count()
+    most_recently_deleted = _first_or_none(deleted)
+    context = {"total_figures": total_figures,
+               "total_tweets": total_tweets,
+               "total_deleted": total_deleted,
+               "most_recently_deleted": most_recently_deleted,
+               "most_deletions": deletors[:4],
+               "recently_deleted": deleted[:3],
+               "recently_archived": tweets[:3]}
     return render(request, "tracker/index.html", context)
 
 
@@ -51,7 +65,8 @@ def figures(request):
     else:
         matched_figures = figures
     url_parameters = "&search=%s" % search
-    paginator = Paginator(sorted(matched_figures, key=lambda k: k.deleted_count, reverse=True), 30)
+    paginator = Paginator(
+        sorted(matched_figures, key=lambda k: k.deleted_count, reverse=True), 30)
     page_obj = paginator.get_page(page)
     context = {
         "all_figures": User.objects.count(),
@@ -84,15 +99,17 @@ def tweets(request):
     search = _get(request, "search", default="")
     page = int(_get(request, "page", default=1))
     active = "deleted" if deleted else "archive"
-    tweets = Tweet.objects.filter(user=user, deleted=deleted).order_by("-modified_date")
+    tweets = Tweet.objects.filter(
+        user=user, deleted=deleted).order_by("-modified_date")
     matched_tweets = []
-    if len(search) > 0: # todo: move search to db side?
+    if len(search) > 0:  # todo: move search to db side?
         for tweet in tweets:
             if _search(search, tweet.text()):
                 matched_tweets.append(tweet)
     else:
         matched_tweets = tweets
-    paginator = Paginator(sorted(matched_tweets, key=lambda k: k.tweet_id, reverse=True), 30)
+    paginator = Paginator(
+        sorted(matched_tweets, key=lambda k: k.tweet_id, reverse=True), 30)
     page_obj = paginator.get_page(page)
     context = {
         "figure": user,
@@ -112,8 +129,10 @@ def tweet(request):
     tweet = get_object_or_404(Tweet, tweet_id=tweet_id)
     figure = tweet.user
     active = "deleted" if tweet.deleted else "archive"
-    tweet_before = _first_or_none(Tweet.objects.filter(user=figure, tweet_id__lt=tweet_id).order_by("-tweet_id"))
-    tweet_after = _first_or_none(Tweet.objects.filter(user=figure, tweet_id__gt=tweet_id).order_by("tweet_id"))
+    tweet_before = _first_or_none(Tweet.objects.filter(
+        user=figure, tweet_id__lt=tweet_id).order_by("-tweet_id"))
+    tweet_after = _first_or_none(Tweet.objects.filter(
+        user=figure, tweet_id__gt=tweet_id).order_by("tweet_id"))
     context = {
         "tweet": tweet,
         "figure": figure,

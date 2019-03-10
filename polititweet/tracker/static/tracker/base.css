@@ -44,3 +44,41 @@
 .is-slightly-transparent {
     opacity: 0.6;
 }
+
+.hero-number {
+    text-align: center;
+}
+
+.number-value {
+    padding-top: none;
+    font-size: 28px;
+    font-weight: 500;
+}
+
+.number-label {
+    margin: 0px;
+}
+
+.card {
+    border-radius: 6px;
+}
+
+html,
+body {
+    height: 100%;
+}
+
+body {
+    display: flex;
+    flex-direction: column;
+}
+
+.super-container {
+    flex: 1 0 auto;
+}
+
+footer {
+    flex-shrink: 0;
+    padding-bottom: 32px;
+    padding-top: 32px;
+}
