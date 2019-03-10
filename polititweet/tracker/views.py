@@ -141,3 +141,6 @@ def tweet(request):
         "following": tweet_after
     }
     return render(request, 'tracker/tweet.html', context)
+
+def about(request):
+    return render(request, 'tracker/about.html', {})
