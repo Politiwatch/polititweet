@@ -13,25 +13,34 @@
                         </div>
                         <div class="column">
                             <h1 class="title">{{figure.full_data.name}}</h1>
-                            <p class="subtitle has-text-link"><a href="https://twitter.com/{{figure.full_data.screen_name}}" target="_blank">@{{figure.full_data.screen_name}} &nearr;</a></p>
+                            <p class="subtitle has-text-link"><a href="https://twitter.com/{{figure.full_data.screen_name}}"
+                                    target="_blank">@{{figure.full_data.screen_name}} &nearr;</a></p>
                         </div>
                     </div>
                 </div>
                 <div class="level-right">
-                    <div class="field is-grouped is-grouped-multiline">
-                        <div class="control">
-                            <div class="tags has-addons">
-                                <span class="tag is-dark">Followers</span>
-                                <span class="tag is-info">{{figure.full_data.followers_count|intcomma}}</span>
+                    <div class="search">
+                        <form method="GET" action="{% url 'tweets' %}">
+                            <div class="field has-addons">
+                                <div class="control">
+                                    <span class="select">
+                                        <select name="scope">
+                                            <option>No Filter</option>
+                                            <option>Deleted</option>
+                                        </select>
+                                    </span>
+                                </div>
+                                <div class="control">
+                                    <input class="input" type="text" name="search" placeholder="Search @{{figure.full_data.screen_name}}..."
+                                        value="{{search_query}}">
+                                </div>
+                                <div class="control">
+                                    <button class="button is-dark" type="submit">
+                                        Search
+                                    </button>
+                                </div>
                             </div>
-                        </div>
-
-                        <div class="control">
-                            <div class="tags has-addons">
-                                <span class="tag is-dark">Tweets</span>
-                                <span class="tag is-info">{{figure.full_data.statuses_count|intcomma}}</span>
-                            </div>
-                        </div>
+                        </form>
                     </div>
                 </div>
             </div>
@@ -46,10 +55,10 @@
                         <a>Overview</a>
                     </li>
                     <li class="{% if active == 'tweets' %}hero-tab-active{% endif %}">
-                        <a>Tweets</a>
+                        <a>Archive</a>
                     </li>
                     <li class="{% if active == 'export' %}hero-tab-active{% endif %}">
-                        <a>Export</a>
+                        <a>Deleted</a>
                     </li>
                 </ul>
             </nav>

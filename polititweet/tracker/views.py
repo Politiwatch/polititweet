@@ -56,7 +56,8 @@ def figure(request):
     context = {
         "figure": user,
         "active": "overview",
-        "tweets": Tweet.objects.filter(user=user, deleted=True).order_by("-modified_date")[:5]
+        "tweets": Tweet.objects.filter(user=user, deleted=True).order_by("-modified_date")[:4],
+        "total_archived": Tweet.objects.filter(user=user).count()
     }
     return render(request, 'tracker/figure.html', context)
 

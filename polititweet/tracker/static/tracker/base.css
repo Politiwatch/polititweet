@@ -1,13 +1,10 @@
-
-
 .no-scroll {
     overflow-y: hidden;
 }
 
 .grid {
     display: flex;
-    flex-wrap: wrap;
-    flex-direction: row;
+    flex-flow: column wrap;
 }
 
 .hero-tab-active {
@@ -29,4 +26,12 @@
 .displaced {
     margin-top: 22px;
     margin-bottom: 0px !important;
+}
+
+.is-fullheight {
+    height: 100% !important;
+}
+
+.is-pulled-bottom {
+    bottom: 0px;
 }

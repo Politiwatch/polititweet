@@ -1,15 +1,16 @@
 @media screen and (min-width: 920px) {
-    .figure-card {
-        max-width: 30%;
+    .tweet-card {
+        max-width: 45%;
         min-width: 350px;
         margin-right: 22px;
     }
 
     .grid {
-        flex-flow: row wrap !important;
+        max-height: 500px;
     }
 }
 
-.figure-card {
+.tweet-card {
     width: 100%;
+    flex-basis: 40%;
 }

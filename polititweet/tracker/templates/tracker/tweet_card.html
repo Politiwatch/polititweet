@@ -1,22 +1,23 @@
 {% load humanize %}
 
-<a href="{% url 'tweet' %}?account={{tweet.full_data.user.id}}&tweet={{tweet.tweet_id}}" class="box figure-card">
-    <article class="media">
-        <div class="columns is-mobile">
+<a href="{% url 'tweet' %}?account={{tweet.full_data.user.id}}&tweet={{tweet.tweet_id}}" class="box tweet-card">
+    <article class="media is-fullheight">
+        <div class="columns is-mobile is-fullheight">
             <div class="column is-narrow">
                 <figure class="image is-48x48 is-marginless">
                     <img class="is-rounded" src="{{figure.full_data.profile_image_url}}" alt="Profile Image">
                 </figure>
             </div>
-            <div class="column">
+            <div class="column is-fullheight">
                 <p>
                     <strong>{{figure.full_data.name}}</strong> <span class="has-text-grey" href="https://twitter.com/{{figure.full_data.screen_name}}"
                         target="_blank">@{{figure.full_data.screen_name}}</span>
                 </p>
                 <p>
                     {{tweet.text}}
+                    <span class="has-text-grey-light">&mdash;&nbsp;PolitiTweet.org</span>
                 </p>
-                <div class="tags">
+                <div class="tags is-pulled-bottom">
                     <span class="tag is-white is-paddingless">{{tweet.day}}</span>
                     {% if tweet.deleted %}
                     <span class="tag is-danger">Deleted</span>
