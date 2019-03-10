@@ -55,7 +55,7 @@
         <br>
 
         <p class="heading is-marginless">Description</p>
-        <p>{{figure.full_data.description|default:"<i>No Description</i>"}}</p>
+        <p>{{figure.full_data.description|default:"<span class='has-text-grey'>No Description</span>"}}</p>
 
         <p class="heading displaced">Followers</p>
         <p>{{figure.full_data.followers_count|intcomma}}</p>
@@ -67,11 +67,11 @@
         <p>{{figure.user_id}}</p>
 
         <p class="heading displaced">Location</p>
-        <p>{{figure.full_data.location|default:"<i>No Location</i>"}}</p>
+        <p>{{figure.full_data.location|default:"<span class='has-text-grey'>No Location</span>"}}</p>
 
         <p class="heading displaced">Link</p>
         <p>{% if figure.full_data.url %}<a href="{{figure.full_data.url}}">{% endif %}
-                {{figure.full_data.url|default:"<i>No Link</i>"}}{% if figure.full_data.url %}</a>{% endif %}</p>
+                {{figure.full_data.url|default:"<span class='has-text-grey'>No Link</span></i>"}}{% if figure.full_data.url %}</a>{% endif %}</p>
     </div>
     <div class="column is-offset-1 is-9">
         <!-- <p class="heading">Recently Deleted Tweets</p> -->
@@ -101,10 +101,10 @@
         {% endif %}
         <br>
         {% if figure.deleted_count != 0 %}
-        <a href="{% url 'tweets' %}?account={{figure.user_id}}&deleted=True" class="button is-danger is-outlined">View
-            Deleted Tweets</a>
+        <a href="{% url 'tweets' %}?account={{figure.user_id}}&deleted=True" class="button is-danger is-outlined">All
+            Deleted Tweets</a>&nbsp;&nbsp;
         {% endif %}
-        <a href="{% url 'tweets' %}?account={{figure.user_id}}" class="button is-dark is-outlined">View All Archived
+        <a href="{% url 'tweets' %}?account={{figure.user_id}}" class="button is-dark is-outlined">All Archived
             Tweets</a>
     </div>
 </div>

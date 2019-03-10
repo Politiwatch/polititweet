@@ -59,6 +59,13 @@ Tweet by @{{figure.full_data.screen_name}} | PolitiTweet
 
         <p class="heading displaced">Retweets</p>
         <p>{{tweet.full_data.retweet_count|intcomma}}</p>
+
+        <p class="heading displaced">View on Twitter</p>
+        {% if tweet.deleted %}
+        <a href="https://twitter.com/{{figure.full_data.screen_name}}/status/{{tweet.tweet_id}}" class="small-top-margin button is-small is-danger is-outlined">Likely Unavailable</a>
+        {% else %}
+        <a href="https://twitter.com/{{figure.full_data.screen_name}}/status/{{tweet.tweet_id}}" class="small-top-margin button is-small is-success is-outlined">Likely Available</a>
+        {% endif %}
     </div>
     <div class="column is-8">
         {% include 'tracker/tweet_card.html' %}

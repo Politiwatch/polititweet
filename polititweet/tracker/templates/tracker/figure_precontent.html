@@ -8,11 +8,11 @@
                     <div class="columns is-mobile">
                         <div class="column is-narrow">
                             <figure class="image is-64x64">
-                                <img class="is-rounded" src="{{figure.full_data.profile_image_url}}" alt="Profile Image">
+                                <a href="{% url 'figure' %}?account={{figure.user_id}}"><img class="is-rounded" src="{{figure.full_data.profile_image_url}}" alt="Profile Image"></a>
                             </figure>
                         </div>
                         <div class="column">
-                            <h1 class="title">{{figure.full_data.name}}</h1>
+                            <a href="{% url 'figure' %}?account={{figure.user_id}}"><h1 class="title">{{figure.full_data.name}}</h1></a>
                             <p class="subtitle has-text-link"><a href="https://twitter.com/{{figure.full_data.screen_name}}"
                                     target="_blank">@{{figure.full_data.screen_name}} &nearr;</a></p>
                         </div>
