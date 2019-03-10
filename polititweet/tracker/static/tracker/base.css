@@ -5,12 +5,13 @@
 
 .grid {
     display: flex;
-    flex-flow: row;
     flex-wrap: wrap;
+    flex-direction: row;
 }
 
 @media screen and (min-width: 920px) {
     .figure-card {
-        width: 400px;
+        width: 32%;
+        min-width: 350px;
     }
 }

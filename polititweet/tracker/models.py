@@ -8,6 +8,9 @@ class User(models.Model):
     priority = models.IntegerField(default=1)
     flagged = models.BooleanField(default=False)
 
+    def deleted_tweets(self):
+        return Tweet.objects.filter(user=self, deleted=True)
+
 class Tweet(models.Model):
     tweet_id = models.BigIntegerField(primary_key=True)
     full_data = JSONField()
