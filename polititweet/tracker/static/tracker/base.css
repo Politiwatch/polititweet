@@ -1,6 +1,9 @@
 .figure-card {
     width: 100%;
-    margin-right: 16px;
+}
+
+.no-scroll {
+    overflow-y: hidden;
 }
 
 .grid {
@@ -11,7 +14,8 @@
 
 @media screen and (min-width: 920px) {
     .figure-card {
-        width: 32%;
+        max-width: 30%;
         min-width: 350px;
+        margin-right: 22px;
     }
 }

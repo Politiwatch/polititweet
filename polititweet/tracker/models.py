@@ -5,11 +5,8 @@ class User(models.Model):
     user_id = models.BigIntegerField(primary_key=True)
     full_data = JSONField()
     modified_date = models.DateTimeField(auto_now=True)
-    priority = models.IntegerField(default=1)
+    deleted_count = models.BigIntegerField(default=0) # big integer, b/c you never know
     flagged = models.BooleanField(default=False)
-
-    def deleted_tweets(self):
-        return Tweet.objects.filter(user=self, deleted=True)
 
 class Tweet(models.Model):
     tweet_id = models.BigIntegerField(primary_key=True)

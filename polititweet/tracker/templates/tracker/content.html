@@ -1,11 +1,6 @@
-<!DOCTYPE html>
-<html>
+{% extends 'tracker/base.html' %}
 
-<head>
-    {% include 'tracker/head.html' %}
-</head>
-
-<body>
+{% block body %}
     {% include 'tracker/navbar.html' %}
     <section class="hero is-light">
         <div class="hero-body">
@@ -21,6 +16,4 @@
             {% endblock %}
         </div>
     </section>
-</body>
-
-</html>
+{% endblock %}

@@ -40,6 +40,7 @@ class Command(BaseCommand):
                     self.stdout.write(
                         "User @%s already exists; updating record..." % user_data.screen_name)
                     user.full_data = user_data._json
+                    user.deleted_count = Tweet.objects.filter(user=user, deleted=True).count()
                     user.save()
                     upsertTweets(api.user_timeline(
                         user_id=user.user_id, count=200), user)

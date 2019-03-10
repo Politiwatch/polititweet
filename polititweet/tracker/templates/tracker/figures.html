@@ -32,32 +32,43 @@ Monitored Figures | PolitiTweet
 {% block content %}
 
 {% if search_query %}
-<p class="is-medium">Your search for <strong>{{search_query}}</strong> yielded <strong>{{figures|length}}</strong> results. <a href="{% url 'figures' %}">Clear search.</a></p>
+<p class="is-medium">Your search for <strong>{{search_query}}</strong> yielded <strong>{{figures|length}}</strong>
+    results. <a href="{% url 'figures' %}">Clear search.</a></p>
 <br>
 <br>
 {% endif %}
 
 <div class="grid">
     {% for figure in figures %}
-    <div class="box figure-card">
+    <a href="{% url 'figure' %}?account={{figure.user_id}}" class="box figure-card">
         <article class="media">
             <div class="media-left">
                 <figure class="image is-48x48">
                     <img class="is-rounded" src="{{figure.full_data.profile_image_url}}" alt="Profile Image">
                 </figure>
             </div>
-            <div class="media-content">
+            <div class="media-content no-scroll">
                 <div class="content">
                     <p>
-                        <strong>{{figure.full_data.name}}</strong> <a class="has-text-grey" href="https://twitter.com/{{figure.full_data.screen_name}}">@{{figure.full_data.screen_name}}</a>
+                        <strong>{{figure.full_data.name}}</strong> <span class="has-text-grey" href="https://twitter.com/{{figure.full_data.screen_name}}"
+                            target="_blank">@{{figure.full_data.screen_name}}</span>
                         <br>
                         {{figure.full_data.description}}
-                        <hr>
                     </p>
+                    <div class="tags">
+                        {% if figure.deleted_count > 0 %}
+                        <span class="tag is-danger">{{figure.deleted_count}} Deleted</span>
+                        {% else %}
+                        <span class="tag">No Deletions</span>
+                        {% endif %}
+                        {% if figure.flagged %}
+                        <span class="tag is-warning">Flagged for Processing</span>
+                        {% endif %}
+                    </div>
                 </div>
             </div>
         </article>
-    </div>
+    </a>
     {% endfor %}
 </div>
 
