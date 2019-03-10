@@ -1,19 +1,15 @@
 {% extends 'tracker/base.html' %}
 
 {% block body %}
-    {% include 'tracker/navbar.html' %}
-    <section class="hero is-light">
-        <div class="hero-body">
-            <div class="container">
-                {% block precontent %}
-                {% endblock %}
-            </div>
-        </div>
-    </section>
-    <section class="section">
-        <div class="container">
-            {% block content %}
-            {% endblock %}
-        </div>
-    </section>
+{% include 'tracker/navbar.html' %}
+<section class="hero is-light">
+    {% block precontent %}
+    {% endblock %}
+</section>
+<section class="section">
+    <div class="container">
+        {% block content %}
+        {% endblock %}
+    </div>
+</section>
 {% endblock %}

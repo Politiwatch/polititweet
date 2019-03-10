@@ -1,18 +1,55 @@
 {% extends 'tracker/content.html' %}
 
 {% block title %}
-TODO
+@{{figure.full_data.screen_name}} Deleted Tweet Archive | PolitiTweet
 {% endblock %}
 
 {% block precontent %}
-<div class="columns is-vcentered">
-    <div class="column">
-        <h1 class="title">Figures</h1>
-        <p class="subtitle">PolitiTweet currently tracks <strong></strong> public figures.</p>
-    </div>
-</div>
+{% include 'tracker/figure_precontent.html' %}
 {% endblock %}
 
 {% block content %}
 
+{% if figure.flagged %}
+<article class="message is-warning">
+    <div class="message-body">
+        Please note that @{{figure.full_data.screen_name}} has been <strong>flagged for processing</strong>.
+        PolitiTweet has detected that @{{figure.full_data.screen_name}} deleted a Tweet, but it has not yet identified
+        <i>which</i> Tweet was deleted.
+    </div>
+</article>
+{% endif %}
+
+<div class="columns content">
+    <div class="column is-3">
+        <p class="heading is-marginless">Description</p>
+        <p>{{figure.full_data.description}}</p>
+
+        <p class="heading displaced">Location</p>
+        <p>{{figure.full_data.location}}</p>
+
+        <p class="heading displaced">Identifier</p>
+        <p>{{figure.user_id}}</p>
+
+        <p class="heading displaced">Link</p>
+        <p><a href="{{figure.full_data.url}}">{{figure.full_data.url}}</a></p>
+    </div>
+    <div class="column is-offset-1 is-5">
+        <p class="subtitle is-4">Recently Deleted Tweets</p>
+        <hr class="small-margin">
+        <br>
+        {% if figure.deleted_count == 0 %}
+        <article class="message is-success">
+            <div class="message-body">
+                <strong>Nothing to see here.</strong> PolitiTweet hasn't yet detected any deleted Tweets from
+                @{{figure.full_data.screen_name}}.
+            </div>
+        </article>
+        {% endif %}
+        {% for tweet in tweets %}
+        {% include 'tracker/tweet_card.html' %}
+        {% endfor %}
+        <a href="{% url 'tweets' %}?account={{figure.user_id}}&deleted=True" class="button is-info">View More</a>
+    </div>
+</div>
 {% endblock %}

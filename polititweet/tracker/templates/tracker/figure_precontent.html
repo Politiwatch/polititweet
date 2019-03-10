@@ -1,0 +1,58 @@
+{% load humanize %}
+
+<section class="hero is-light">
+    <div class="hero-body">
+        <div class="container">
+            <div class="level">
+                <div class="level-left">
+                    <div class="columns is-mobile">
+                        <div class="column is-narrow">
+                            <figure class="image is-64x64">
+                                <img class="is-rounded" src="{{figure.full_data.profile_image_url}}" alt="Profile Image">
+                            </figure>
+                        </div>
+                        <div class="column">
+                            <h1 class="title">{{figure.full_data.name}}</h1>
+                            <p class="subtitle has-text-link"><a href="https://twitter.com/{{figure.full_data.screen_name}}" target="_blank">@{{figure.full_data.screen_name}} &nearr;</a></p>
+                        </div>
+                    </div>
+                </div>
+                <div class="level-right">
+                    <div class="field is-grouped is-grouped-multiline">
+                        <div class="control">
+                            <div class="tags has-addons">
+                                <span class="tag is-dark">Followers</span>
+                                <span class="tag is-info">{{figure.full_data.followers_count|intcomma}}</span>
+                            </div>
+                        </div>
+
+                        <div class="control">
+                            <div class="tags has-addons">
+                                <span class="tag is-dark">Tweets</span>
+                                <span class="tag is-info">{{figure.full_data.statuses_count|intcomma}}</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="hero-foot">
+        <div class="container">
+            <nav class="tabs">
+                <ul>
+                    <li class="{% if active == 'overview' %}hero-tab-active{% endif %}">
+                        <a>Overview</a>
+                    </li>
+                    <li class="{% if active == 'tweets' %}hero-tab-active{% endif %}">
+                        <a>Tweets</a>
+                    </li>
+                    <li class="{% if active == 'export' %}hero-tab-active{% endif %}">
+                        <a>Export</a>
+                    </li>
+                </ul>
+            </nav>
+        </div>
+    </div>
+</section>

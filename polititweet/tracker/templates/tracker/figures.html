@@ -1,29 +1,40 @@
 {% extends 'tracker/content.html' %}
 
+{% load static %}
+
+{% block head %}
+<link rel="stylesheet" href="{% static 'tracker/figures.css' %}">
+{% endblock %}
+
 {% block title %}
 Monitored Figures | PolitiTweet
 {% endblock %}
 
 {% block precontent %}
-<div class="columns is-vcentered">
-    <div class="column">
-        <h1 class="title">Figures</h1>
-        <p class="subtitle">PolitiTweet currently tracks <strong>{{all_figures}}</strong> public figures.</p>
-    </div>
-    <div class="column is-narrow">
-        <div class="search">
-            <form class="control" method="GET" action="{% url 'figures' %}">
-                <div class="field has-addons">
-                    <div class="control">
-                        <input class="input" type="text" name="search" placeholder="Search for a figure..." value="{{search_query}}">
-                    </div>
-                    <div class="control">
-                        <button class="button is-dark" type="submit">
-                            Search
-                        </button>
-                    </div>
+<div class="hero-body">
+    <div class="container">
+        <div class="columns is-vcentered">
+            <div class="column">
+                <h1 class="title">Figures</h1>
+                <p class="subtitle">PolitiTweet currently tracks <strong>{{all_figures}}</strong> public figures.</p>
+            </div>
+            <div class="column is-narrow">
+                <div class="search">
+                    <form class="control" method="GET" action="{% url 'figures' %}">
+                        <div class="field has-addons">
+                            <div class="control">
+                                <input class="input" type="text" name="search" placeholder="Search for a figure..."
+                                    value="{{search_query}}">
+                            </div>
+                            <div class="control">
+                                <button class="button is-dark" type="submit">
+                                    Search
+                                </button>
+                            </div>
+                        </div>
+                    </form>
                 </div>
-            </form>
+            </div>
         </div>
     </div>
 </div>
@@ -40,35 +51,7 @@ Monitored Figures | PolitiTweet
 
 <div class="grid">
     {% for figure in figures %}
-    <a href="{% url 'figure' %}?account={{figure.user_id}}" class="box figure-card">
-        <article class="media">
-            <div class="media-left">
-                <figure class="image is-48x48">
-                    <img class="is-rounded" src="{{figure.full_data.profile_image_url}}" alt="Profile Image">
-                </figure>
-            </div>
-            <div class="media-content no-scroll">
-                <div class="content">
-                    <p>
-                        <strong>{{figure.full_data.name}}</strong> <span class="has-text-grey" href="https://twitter.com/{{figure.full_data.screen_name}}"
-                            target="_blank">@{{figure.full_data.screen_name}}</span>
-                        <br>
-                        {{figure.full_data.description}}
-                    </p>
-                    <div class="tags">
-                        {% if figure.deleted_count > 0 %}
-                        <span class="tag is-danger">{{figure.deleted_count}} Deleted</span>
-                        {% else %}
-                        <span class="tag">No Deletions</span>
-                        {% endif %}
-                        {% if figure.flagged %}
-                        <span class="tag is-warning">Flagged for Processing</span>
-                        {% endif %}
-                    </div>
-                </div>
-            </div>
-        </article>
-    </a>
+    {% include 'tracker/figure_card.html' %}
     {% endfor %}
 </div>
 
