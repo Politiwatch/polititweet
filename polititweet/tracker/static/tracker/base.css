@@ -1,6 +1,4 @@
-.figure-card {
-    width: 100%;
-}
+
 
 .no-scroll {
     overflow-y: hidden;
@@ -12,10 +10,23 @@
     flex-direction: row;
 }
 
-@media screen and (min-width: 920px) {
-    .figure-card {
-        max-width: 30%;
-        min-width: 350px;
-        margin-right: 22px;
-    }
+.hero-tab-active {
+    border-bottom: 2px solid #222;
+    font-weight: 500 !important;
+    box-sizing: border-box;
+    opacity: 1;
+}
+
+.hero .tabs a {
+    border-bottom: none !important;
+}
+
+.small-margin {
+    margin-top: 8px !important;
+    margin-bottom: 8px !important;
+}
+
+.displaced {
+    margin-top: 22px;
+    margin-bottom: 0px !important;
 }

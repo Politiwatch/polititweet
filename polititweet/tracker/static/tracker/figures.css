@@ -1,0 +1,11 @@
+.figure-card {
+    width: 100%;
+}
+
+@media screen and (min-width: 920px) {
+    .figure-card {
+        max-width: 30%;
+        min-width: 350px;
+        margin-right: 22px;
+    }
+}
