@@ -16,6 +16,12 @@ def _get(request, param, default=None):
             return default
     return value
 
+def _first_or_none(obj):
+    try:
+        return obj[0]
+    except:
+        return None
+
 
 def _search(query, *items):
     tokens = query.split(" ")
@@ -45,7 +51,7 @@ def figures(request):
     else:
         matched_figures = figures
     url_parameters = "&search=%s" % search
-    paginator = Paginator(matched_figures, 30)
+    paginator = Paginator(sorted(matched_figures, key=lambda k: k.deleted_count, reverse=True), 30)
     page_obj = paginator.get_page(page)
     context = {
         "all_figures": User.objects.count(),
@@ -79,12 +85,20 @@ def tweets(request):
     page = int(_get(request, "page", default=1))
     active = "deleted" if deleted else "archive"
     tweets = Tweet.objects.filter(user=user, deleted=deleted).order_by("-modified_date")
-    paginator = Paginator(tweets, 30)
+    matched_tweets = []
+    if len(search) > 0: # todo: move search to db side?
+        for tweet in tweets:
+            if _search(search, tweet.text()):
+                matched_tweets.append(tweet)
+    else:
+        matched_tweets = tweets
+    paginator = Paginator(sorted(matched_tweets, key=lambda k: k.tweet_id, reverse=True), 30)
     page_obj = paginator.get_page(page)
     context = {
         "figure": user,
         "active": active,
-        "search": search,
+        "total_matched": len(matched_tweets),
+        "search_query": search,
         "page_obj": page_obj,
         "tweets": page_obj,
         "paginator": paginator,
@@ -95,4 +109,16 @@ def tweets(request):
 
 def tweet(request):
     tweet_id = _get(request, "tweet")
-    return HttpResponse("You are looking at the tweet page.")
+    tweet = get_object_or_404(Tweet, tweet_id=tweet_id)
+    figure = tweet.user
+    active = "deleted" if tweet.deleted else "archive"
+    tweet_before = _first_or_none(Tweet.objects.filter(user=figure, tweet_id__lt=tweet_id).order_by("-tweet_id"))
+    tweet_after = _first_or_none(Tweet.objects.filter(user=figure, tweet_id__gt=tweet_id).order_by("tweet_id"))
+    context = {
+        "tweet": tweet,
+        "figure": figure,
+        "active": active,
+        "preceding": tweet_before,
+        "following": tweet_after
+    }
+    return render(request, 'tracker/tweet.html', context)

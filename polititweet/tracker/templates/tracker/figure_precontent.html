@@ -27,7 +27,7 @@
                                     <span class="select">
                                         <select name="deleted">
                                             <option value="False">No Filter</option>
-                                            <option value="True">Deleted</option>
+                                            <option value="True"{% if active == "deleted" %}selected{% endif %}>Deleted</option>
                                         </select>
                                     </span>
                                 </div>
@@ -59,7 +59,7 @@
                         <a href="{% url 'tweets' %}?account={{figure.user_id}}">Archive</a>
                     </li>
                     <li class="{% if active == 'deleted' %}hero-tab-active{% endif %}">
-                        <a href="{% url 'figure' %}?account={{figure.user_id}}&deleted=True">Deleted</a>
+                        <a href="{% url 'tweets' %}?account={{figure.user_id}}&deleted=True">Deleted</a>
                     </li>
                 </ul>
             </nav>

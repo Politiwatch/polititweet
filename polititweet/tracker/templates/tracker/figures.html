@@ -52,9 +52,7 @@ Monitored Figures | PolitiTweet
 </article>
 {% endif %}
 
-{% if paginator.num_pages > 1 %}
 <p class="is-size-7 has-text-grey">Showing page <strong>{{page_obj.number}}</strong> of <strong>{{paginator.num_pages}}</strong>.<br><br></p>
-{% endif %}
 
 <div class="grid">
     {% for figure in figures %}
