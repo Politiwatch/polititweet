@@ -1,3 +1,4 @@
+from datetime import datetime
 from django.db import models
 from django.contrib.postgres.fields import JSONField
 
@@ -15,3 +16,12 @@ class Tweet(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     deleted = models.BooleanField(default=False)
     hibernated = models.BooleanField(default=False)
+
+    def text(self):
+        if "extended_tweet" in self.full_data:
+            return self.full_data["extended_tweet"]["full_text"]
+        else:
+            return self.full_data["text"]
+
+    def day(self):
+        return datetime.strptime(self.full_data['created_at'],'%a %b %d %H:%M:%S +0000 %Y').date()
