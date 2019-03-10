@@ -43,10 +43,12 @@ Monitored Figures | PolitiTweet
 {% block content %}
 
 {% if search_query %}
-<p class="is-medium">Your search for <strong>{{search_query}}</strong> yielded <strong>{{figures|length}}</strong>
-    results. <a href="{% url 'figures' %}">Clear search.</a></p>
-<br>
-<br>
+<article class="message is-info">
+    <div class="message-body">
+        <p class="is-medium">Your search for <strong>{{search_query}}</strong> yielded <strong>{{figures|length}}</strong>
+            results. <a href="{% url 'figures' %}">Clear search.</a></p>
+    </div>
+</article>
 {% endif %}
 
 <div class="grid">

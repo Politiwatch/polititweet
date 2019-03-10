@@ -21,12 +21,13 @@
                 <div class="level-right">
                     <div class="search">
                         <form method="GET" action="{% url 'tweets' %}">
+                            <input type="hidden" value="{{figure.user_id}}" name="account" />
                             <div class="field has-addons">
                                 <div class="control">
                                     <span class="select">
-                                        <select name="scope">
-                                            <option>No Filter</option>
-                                            <option>Deleted</option>
+                                        <select name="deleted">
+                                            <option value="False">No Filter</option>
+                                            <option value="True">Deleted</option>
                                         </select>
                                     </span>
                                 </div>
@@ -52,13 +53,13 @@
             <nav class="tabs">
                 <ul>
                     <li class="{% if active == 'overview' %}hero-tab-active{% endif %}">
-                        <a>Overview</a>
+                        <a href="{% url 'figure' %}?account={{figure.user_id}}">Overview</a>
                     </li>
-                    <li class="{% if active == 'tweets' %}hero-tab-active{% endif %}">
-                        <a>Archive</a>
+                    <li class="{% if active == 'archive' %}hero-tab-active{% endif %}">
+                        <a href="{% url 'tweets' %}?account={{figure.user_id}}">Archive</a>
                     </li>
-                    <li class="{% if active == 'export' %}hero-tab-active{% endif %}">
-                        <a>Deleted</a>
+                    <li class="{% if active == 'deleted' %}hero-tab-active{% endif %}">
+                        <a href="{% url 'figure' %}?account={{figure.user_id}}&deleted=True">Deleted</a>
                     </li>
                 </ul>
             </nav>

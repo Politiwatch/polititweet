@@ -17,16 +17,6 @@
 
 {% block content %}
 
-{% if figure.flagged %}
-<article class="message is-warning">
-    <div class="message-body">
-        Please note that @{{figure.full_data.screen_name}} has been <strong>flagged for processing</strong>.
-        PolitiTweet has detected that @{{figure.full_data.screen_name}} deleted a Tweet, but it has not yet identified
-        <i>which</i> Tweet was deleted.
-    </div>
-</article>
-{% endif %}
-
 <div class="columns content">
     <div class="column is-3">
         <div class="field is-grouped is-grouped-multiline">
@@ -85,6 +75,16 @@
     </div>
     <div class="column is-offset-1 is-9">
         <!-- <p class="heading">Recently Deleted Tweets</p> -->
+        {% if figure.flagged %}
+        <article class="message is-warning">
+            <div class="message-body">
+                Please note that @{{figure.full_data.screen_name}} has been <strong>flagged for processing</strong>.
+                PolitiTweet has detected that @{{figure.full_data.screen_name}} deleted a Tweet, but it has not yet
+                identified
+                <i>which</i> Tweet was deleted.
+            </div>
+        </article>
+        {% endif %}
         {% if figure.deleted_count == 0 %}
         <article class="message is-info">
             <div class="message-body">
@@ -106,9 +106,6 @@
         {% endif %}
         <a href="{% url 'tweets' %}?account={{figure.user_id}}" class="button is-dark is-outlined">View All Archived
             Tweets</a>
-    </div>
-    <div class="column is-offset-1 is-3">
-
     </div>
 </div>
 {% endblock %}

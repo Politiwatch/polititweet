@@ -1,5 +1,5 @@
 @media screen and (min-width: 1280px) {
-    .figure-card {
+    .tweet-card {
         max-width: 32%;
         min-width: 350px;
     }
@@ -10,7 +10,7 @@
 }
 
 @media screen and (max-width: 1279px) and (min-width: 980px) {
-    .figure-card {
+    .tweet-card {
         max-width: 49%;
         min-width: 350px;
     }
@@ -20,6 +20,6 @@
     }
 }
 
-.figure-card {
+.tweet-card {
     width: 100%;
 }

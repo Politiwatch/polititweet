@@ -1,0 +1,32 @@
+{% extends 'tracker/content.html' %}
+
+{% load humanize %}
+{% load static %}
+{% load paginator %}
+
+{% block head %}
+<link rel="stylesheet" href="{% static 'tracker/tweets.css' %}">
+{% endblock %}
+
+{% block title %}
+@{{figure.full_data.screen_name}} Tweets | PolitiTweet
+{% endblock %}
+
+{% block precontent %}
+{% include 'tracker/figure_precontent.html' %}
+{% endblock %}
+
+{% block content %}
+
+<div>
+    <div class="grid">
+        {% for tweet in tweets %}
+        {% include 'tracker/tweet_card.html' %}
+        {% endfor %}
+    </div>
+    <br>
+    <div>
+        {% pagination page_obj url_parameters=url_parameters %}
+    </div>
+</div>
+{% endblock %}

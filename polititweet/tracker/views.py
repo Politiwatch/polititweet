@@ -2,6 +2,7 @@ import math
 from django.shortcuts import render, get_object_or_404
 from django.http import HttpResponse, Http404
 from .models import User, Tweet
+from django.core.paginator import Paginator
 
 ITEMS_PER_PAGE = 50
 
@@ -64,8 +65,24 @@ def figure(request):
 
 def tweets(request):
     user_id = _get(request, "account")
-    deleted = _get(request, "deleted", default=False)
-    return HttpResponse("You are looking at the tweets page.")
+    user = get_object_or_404(User, user_id=user_id)
+    deleted = _get(request, "deleted", default="False") == "True"
+    search = _get(request, "search", default="")
+    page = int(_get(request, "page", default=1))
+    active = "deleted" if deleted else "archive"
+    tweets = Tweet.objects.filter(user=user, deleted=deleted).order_by("-modified_date")
+    paginator = Paginator(tweets, 30)
+    page_obj = paginator.get_page(page)
+    context = {
+        "figure": user,
+        "active": active,
+        "search": search,
+        "page_obj": page_obj,
+        "tweets": page_obj,
+        "paginator": paginator,
+        "url_parameters": "&deleted=%s&account=%s&search=%s" % (deleted, user_id, search)
+    }
+    return render(request, 'tracker/tweets.html', context)
 
 
 def tweet(request):
