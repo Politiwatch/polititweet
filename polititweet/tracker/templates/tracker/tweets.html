@@ -25,8 +25,6 @@
         {% endfor %}
     </div>
     <br>
-    <div>
-        {% pagination page_obj url_parameters=url_parameters %}
-    </div>
+    {% pagination page_obj url_parameters=url_parameters %}
 </div>
 {% endblock %}

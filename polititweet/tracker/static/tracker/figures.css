@@ -2,6 +2,7 @@
     .figure-card {
         max-width: 32%;
         min-width: 350px;
+        margin-bottom: 24px;
     }
 
     .grid {
@@ -13,6 +14,7 @@
     .figure-card {
         max-width: 49%;
         min-width: 350px;
+        margin-bottom: 24px;
     }
 
     .grid {

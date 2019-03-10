@@ -36,3 +36,7 @@
 .is-pulled-bottom {
     bottom: 0px;
 }
+
+.small-top-margin {
+    margin-top: 8px;
+}

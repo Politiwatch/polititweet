@@ -1,6 +1,7 @@
 {% extends 'tracker/content.html' %}
 
 {% load static %}
+{% load paginator %}
 
 {% block head %}
 <link rel="stylesheet" href="{% static 'tracker/figures.css' %}">
@@ -45,10 +46,14 @@ Monitored Figures | PolitiTweet
 {% if search_query %}
 <article class="message is-info">
     <div class="message-body">
-        <p class="is-medium">Your search for <strong>{{search_query}}</strong> yielded <strong>{{figures|length}}</strong>
+        <p class="is-medium">Your search for <strong>{{search_query}}</strong> yielded <strong>{{total_matched}}</strong>
             results. <a href="{% url 'figures' %}">Clear search.</a></p>
     </div>
 </article>
+{% endif %}
+
+{% if paginator.num_pages > 1 %}
+<p class="is-size-7 has-text-grey">Showing page <strong>{{page_obj.number}}</strong> of <strong>{{paginator.num_pages}}</strong>.<br><br></p>
 {% endif %}
 
 <div class="grid">
@@ -56,5 +61,7 @@ Monitored Figures | PolitiTweet
     {% include 'tracker/figure_card.html' %}
     {% endfor %}
 </div>
+<br>
+{% pagination page_obj url_parameters=url_parameters %}
 
 {% endblock %}

@@ -37,16 +37,24 @@ def figures(request):
     figures = User.objects.all()
     search = _get(request, "search", default="")
     matched_figures = []
+    page = int(_get(request, "page", default=1))
     if len(search) > 0:
         for figure in figures:
             if _search(search, figure.full_data["name"], figure.full_data["screen_name"], figure.full_data["description"]):
                 matched_figures.append(figure)
     else:
         matched_figures = figures
+    url_parameters = "&search=%s" % search
+    paginator = Paginator(matched_figures, 30)
+    page_obj = paginator.get_page(page)
     context = {
         "all_figures": User.objects.count(),
-        "figures": matched_figures,
-        "search_query": search
+        "total_matched": len(matched_figures),
+        "figures": page_obj,
+        "page_obj": page_obj,
+        "paginator": paginator,
+        "search_query": search,
+        "url_parameters": url_parameters
     }
     return render(request, "tracker/figures.html", context)
 
