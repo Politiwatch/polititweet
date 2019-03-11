@@ -1,0 +1,20 @@
+{% extends 'tracker/base.html' %}
+
+{% block title %}Error 404 | PolitiTweet{% endblock %}
+
+{% block body %}
+{% include 'tracker/navbar.html' %}
+<section class="hero is-primary is-bold is-warning is-fullheight-with-navbar">
+    <div class="hero-body">
+        <div class="container">
+            <h1 class="title">
+                Error 500
+            </h1>
+            <h2 class="subtitle">
+                Something went wrong on our end. We're sorry. Try reloading the page, or waiting a few minutes.
+            </h2>
+            <a class="button is-info is-medium" href="{% url 'index' %}">Go Home</a>
+        </div>
+    </div>
+</section>
+{% endblock %}
