@@ -3,6 +3,9 @@ from django.shortcuts import render, get_object_or_404
 from django.http import HttpResponse, Http404
 from .models import User, Tweet
 from django.core.paginator import Paginator
+from django.contrib.postgres.search import SearchVector
+from django.db.models import TextField
+from django.db.models.functions import Cast
 
 ITEMS_PER_PAGE = 50
 
@@ -99,17 +102,13 @@ def tweets(request):
     search = _get(request, "search", default="")
     page = int(_get(request, "page", default=1))
     active = "deleted" if deleted else "archive"
-    tweets = Tweet.objects.filter(
-        user=user, deleted=deleted).order_by("-modified_date")
     matched_tweets = []
     if len(search) > 0:  # todo: move search to db side?
-        for tweet in tweets:
-            if _search(search, tweet.text()):
-                matched_tweets.append(tweet)
+        matched_tweets = Tweet.objects.filter(user=user, deleted=deleted, full_text__search=search).order_by("-tweet_id")
+        print(matched_tweets.explain())
     else:
-        matched_tweets = tweets
-    paginator = Paginator(
-        sorted(matched_tweets, key=lambda k: k.tweet_id, reverse=True), 30)
+        matched_tweets = Tweet.objects.filter(user=user, deleted=deleted).order_by("-tweet_id")
+    paginator = Paginator(matched_tweets, 30)
     page_obj = paginator.get_page(page)
     context = {
         "figure": user,
@@ -141,6 +140,7 @@ def tweet(request):
         "following": tweet_after
     }
     return render(request, 'tracker/tweet.html', context)
+
 
 def about(request):
     return render(request, 'tracker/about.html', {})
