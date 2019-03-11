@@ -23,7 +23,7 @@
             <div class="control">
                 <div class="tags has-addons">
                     <span class="tag is-dark">Known Deleted</span>
-                    <span class="tag {% if figure.deleted_count > 0 %}is-danger{% else %}is-success{% endif %}">{{figure.deleted_count}}</span>
+                    <span class="tag {% if figure.deleted_count > 0 %}is-danger{% else %}is-success{% endif %}">{{figure.deleted_count|intcomma}}</span>
                 </div>
             </div>
 
