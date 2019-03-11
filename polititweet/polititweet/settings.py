@@ -20,18 +20,18 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 # See https://docs.djangoproject.com/en/2.1/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = '2g-$^w^9m60_ya#$cn16(@61ngz4v*0-5%3n^&@@o7a=cshzdu'
+SECRET_KEY = os.environ.get("secret_key")
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
 
 ALLOWED_HOSTS = []
 
 TWITTER_CREDENTIALS = {
-    "consumer_key": "",
-    "consumer_secret": "",
-    "access_token": "",
-    "access_secret": ""
+    "consumer_key": os.environ.get("consumer_key"),
+    "consumer_secret": os.environ.get("consumer_secret"),
+    "access_token": os.environ.get("access_token"),
+    "access_secret": os.environ.get("access_secret")
 }
 
 
@@ -56,6 +56,7 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'whitenoise.middleware.WhiteNoiseMiddleware',
 ]
 
 ROOT_URLCONF = 'polititweet.urls'
