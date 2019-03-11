@@ -5,9 +5,6 @@ from django.core.management.base import BaseCommand, CommandError
 from ...models import Tweet, User
 from django.conf import settings
 
-from twython import TwythonStreamer
-
-
 class Command(BaseCommand):
     help = 'Update database entries of all followed users'
 
