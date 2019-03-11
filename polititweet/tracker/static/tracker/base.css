@@ -93,6 +93,11 @@ footer {
     margin: auto;
 }
 
+.sidemargin {
+    margin-left: 16px !important;
+    margin-right: 16px !important;
+}
+
 .item {
     margin-bottom: 48px;
 }
