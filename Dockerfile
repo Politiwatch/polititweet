@@ -7,7 +7,7 @@ RUN pip install --no-cache-dir -r requirements.txt
 
 COPY polititweet .
 
-RUN python manage.py collectstatic
+RUN SECRET_KEY=secretsecretsecret python manage.py collectstatic
 
 EXPOSE 8000
 
