@@ -39,15 +39,15 @@ def _search(query, *items):
 
 
 def index(request):
-    deleted = Tweet.objects.filter(deleted=True).order_by("-modified_date")
+    deleted = Tweet.objects.filter(deleted=True).order_by("-tweet_id")
     tweets = Tweet.objects.order_by("-tweet_id")
     deletors = User.objects.order_by("-deleted_count")
     total_figures = deletors.count()
-    total_tweets = tweets.count()
+    last_archived = tweets[0].modified_date
     total_deleted = deleted.count()
     most_recently_deleted = _first_or_none(deleted)
     context = {"total_figures": total_figures,
-               "total_tweets": total_tweets,
+               "last_archived": last_archived,
                "total_deleted": total_deleted,
                "most_recently_deleted": most_recently_deleted,
                "most_deletions": deletors[:4],
