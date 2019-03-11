@@ -1,0 +1,51 @@
+apiVersion: "extensions/v1beta1"
+kind: "Deployment"
+metadata:
+  name: "webserver"
+  namespace: "default"
+  labels:
+    app: "webserver"
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: "webserver"
+  template:
+    metadata:
+      labels:
+        app: "webserver"
+    spec:
+      containers:
+      - name: "polititweet"
+        image: "gcr.io/polititweet/github.com/milesmcc/polititweet:d14807e0314e22597010dfdb36e085c1d74d9c1b"
+        env:
+        - name: SECRET_KEY
+          valueFrom:
+            secretKeyRef:
+              name: django
+              key: secret_key
+        - name: DB_NAME
+          valueFrom:
+            secretKeyRef:
+              name: postgres
+              key: db_name
+        - name: DB_USER
+          valueFrom:
+            secretKeyRef:
+              name: postgres
+              key: db_user
+        - name: DB_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              name: postgres
+              key: db_password
+        - name: DB_HOST
+          valueFrom:
+            secretKeyRef:
+              name: postgres
+              key: db_host
+        - name: DB_PORT
+          valueFrom:
+            secretKeyRef:
+              name: postgres
+              key: db_port

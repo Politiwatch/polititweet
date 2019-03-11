@@ -1,0 +1,145 @@
+apiVersion: "extensions/v1beta1"
+kind: "Deployment"
+metadata:
+  name: "streamer"
+  namespace: "default"
+  labels:
+    app: "streamer"
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: "streamer"
+  template:
+    metadata:
+      labels:
+        app: "streamer"
+    spec:
+      containers:
+      - name: "streamer"
+        image: "gcr.io/polititweet/github.com/milesmcc/polititweet:f7933b2a2f086e65f013f7932841d4f7378510d8"
+        command: ["python", "manage.py", "stream"]
+        env:
+        - name: CONSUMER_KEY
+          valueFrom:
+            secretKeyRef:
+              name: twitter-credentials
+              key: consumer_key
+        - name: CONSUMER_SECRET
+          valueFrom:
+            secretKeyRef:
+              name: twitter-credentials
+              key: consumer_secret
+        - name: ACCESS_TOKEN
+          valueFrom:
+            secretKeyRef:
+              name: twitter-credentials
+              key: access_token
+        - name: ACCESS_SECRET
+          valueFrom:
+            secretKeyRef:
+              name: twitter-credentials
+              key: access_secret
+        - name: DB_NAME
+          valueFrom:
+            secretKeyRef:
+              name: postgres
+              key: db_name
+        - name: DB_USER
+          valueFrom:
+            secretKeyRef:
+              name: postgres
+              key: db_user
+        - name: DB_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              name: postgres
+              key: db_password
+        - name: DB_HOST
+          valueFrom:
+            secretKeyRef:
+              name: postgres
+              key: db_host
+        - name: DB_PORT
+          valueFrom:
+            secretKeyRef:
+              name: postgres
+              key: db_port
+        - name: SECRET_KEY
+          valueFrom:
+            secretKeyRef:
+              name: django
+              key: secret_key
+---
+apiVersion: "extensions/v1beta1"
+kind: "Deployment"
+metadata:
+  name: "scanner"
+  namespace: "default"
+  labels:
+    app: "scanner"
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: "scanner"
+  template:
+    metadata:
+      labels:
+        app: "scanner"
+    spec:
+      containers:
+      - name: "scanner"
+        image: "gcr.io/polititweet/github.com/milesmcc/polititweet:f7933b2a2f086e65f013f7932841d4f7378510d8"
+        command: ["python", "manage.py", "scan", "--infinite"]
+        env:
+        - name: CONSUMER_KEY
+          valueFrom:
+            secretKeyRef:
+              name: twitter-credentials
+              key: consumer_key
+        - name: CONSUMER_SECRET
+          valueFrom:
+            secretKeyRef:
+              name: twitter-credentials
+              key: consumer_secret
+        - name: ACCESS_TOKEN
+          valueFrom:
+            secretKeyRef:
+              name: twitter-credentials
+              key: access_token
+        - name: ACCESS_SECRET
+          valueFrom:
+            secretKeyRef:
+              name: twitter-credentials
+              key: access_secret
+        - name: DB_NAME
+          valueFrom:
+            secretKeyRef:
+              name: postgres
+              key: db_name
+        - name: DB_USER
+          valueFrom:
+            secretKeyRef:
+              name: postgres
+              key: db_user
+        - name: DB_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              name: postgres
+              key: db_password
+        - name: DB_HOST
+          valueFrom:
+            secretKeyRef:
+              name: postgres
+              key: db_host
+        - name: DB_PORT
+          valueFrom:
+            secretKeyRef:
+              name: postgres
+              key: db_port
+        - name: SECRET_KEY
+          valueFrom:
+            secretKeyRef:
+              name: django
+              key: secret_key
