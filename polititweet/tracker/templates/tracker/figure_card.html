@@ -7,13 +7,14 @@
         </div>
         <div class="media-content no-scroll">
             <div class="content">
-                <p>
+                <p class="is-marginless">
                     <strong>{{figure.full_data.name}}</strong> <span class="has-text-grey" href="https://twitter.com/{{figure.full_data.screen_name}}"
                         target="_blank">@{{figure.full_data.screen_name}}</span>
-                    <br>
+                </p>
+                <p class="small-top-margin">
                     {{figure.full_data.description}}
                 </p>
-                <div class="tags is-pulled-bottom">
+                <div class="tags small-top-margin">
                     {% if figure.deleted_count > 0 %}
                     <span class="tag is-danger">{{figure.deleted_count}} Deleted</span>
                     {% else %}
