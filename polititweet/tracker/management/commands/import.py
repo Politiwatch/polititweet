@@ -19,6 +19,9 @@ class Command(BaseCommand):
             if root.endswith("tweets"):
                 user = None
                 user_imported = 0
+                user_deleted = 0
+                to_batch_insert = []
+                existing_ids = []
                 for filename in files:
                     if skip:
                         break
@@ -29,19 +32,21 @@ class Command(BaseCommand):
                             deleted = False
                             if "deleted" in data and data["deleted"]:
                                 deleted = True
-                            if user == None:
+                                user_deleted += 1
+                            if user == None or user.user_id != data["user"]["id"]:
                                 try:
                                     user = User.objects.get(user_id=data["user"]["id"])
+                                    existing_ids = [tweet.tweet_id for tweet in Tweet.objects.filter(user=user)]
                                 except User.DoesNotExist:
-                                    self.stderr.write("Unable to find user %s in database... skipping...")
+                                    self.stderr.write("Unable to find user %s in database... skipping..." % data["user"]["id"])
                                     skip = True
                                     continue
-                            try:
-                                tweet = Tweet(tweet_id=data["id"], full_data=data, user=user, deleted=deleted)
-                                tweet.save()
+                            tweet = Tweet(tweet_id=data["id"], full_data=data, full_text=tweet.text(), user=user, deleted=deleted)
+                            if tweet.tweet_id not in existing_ids:
+                                to_batch_insert.append(tweet)
                                 total_imported += 1
                                 user_imported += 1
-                            except Exception as e:
-                                self.stderr.write("Unable to write tweet at %s: %s" % (os.path.join(root, filename), str(e)))
-                self.stdout.write(self.style.SUCCESS("Successfully imported %s tweets from @%s." % (str(user_imported), user.full_data["screen_name"])))
+                if not skip and user != None:
+                    Tweet.objects.bulk_create(to_batch_insert)
+                    self.stdout.write(self.style.SUCCESS("Successfully imported %s tweets from @%s, of which %s were deleted." % (str(user_imported), user.full_data["screen_name"], str(user_deleted))))
         self.stdout.write(self.style.SUCCESS("Successfully imported %s tweets!" % str(total_imported)))
