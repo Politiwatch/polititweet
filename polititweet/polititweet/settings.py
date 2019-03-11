@@ -86,11 +86,11 @@ WSGI_APPLICATION = 'polititweet.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        'NAME': 'polititweet',
-        'USER': 'polititweet',
-        'PASSWORD': 'password',
-        'HOST': 'localhost',
-        'PORT': '',
+        'NAME': os.environ.get("db_name"),
+        'USER': os.environ.get("db_user"),
+        'PASSWORD': os.environ.get("db_password"),
+        'HOST': os.environ.get("db_host"),
+        'PORT': os.environ.get("db_port"),
     }
 }
 
