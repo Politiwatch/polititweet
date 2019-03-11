@@ -13,8 +13,13 @@ class Command(BaseCommand):
     def handle(self, *args, **options):
         directory = options["directory"]
         self.stdout.write("Importing from `%s`..." % directory)
+        telltale_key = "retrieved"
+        users_not_to_import = [item["user"] for item in Tweet.objects.filter(full_data__has_key=telltale_key).values("user").distinct()]
         total_imported = 0
-        for root, dirs, files in os.walk(directory):
+        users_imported = 0
+        print(users_not_to_import)
+        print("Already imported %s users!" % str(len(users_not_to_import)))
+        for root, dirs, files in os.walk(directory, topdown=False):
             skip = False
             if root.endswith("tweets"):
                 user = None
@@ -28,6 +33,10 @@ class Command(BaseCommand):
                     if filename.endswith(".json"):
                         with open(os.path.join(root, filename), "r") as infile:
                             data = json.load(infile)
+                            if data["user"]["id"] in users_not_to_import:
+                                skip = True
+                                print("Skipping this user; already imported... (%s)" % str(data["user"]["id"]))
+                                break
                             data["legacy_imported"] = True
                             deleted = False
                             if "deleted" in data and data["deleted"]:
@@ -52,4 +61,6 @@ class Command(BaseCommand):
                     user.deleted_count = Tweet.objects.filter(user=user, deleted=True).count()
                     user.save()
                     self.stdout.write(self.style.SUCCESS("Successfully imported %s tweets from @%s, of which %s were deleted." % (str(user_imported), user.full_data["screen_name"], str(user_deleted))))
+                users_imported += 1
+                print("Imported %s users so far..." % str(users_imported))
         self.stdout.write(self.style.SUCCESS("Successfully imported %s tweets!" % str(total_imported)))
