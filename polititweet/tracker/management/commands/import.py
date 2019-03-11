@@ -41,12 +41,15 @@ class Command(BaseCommand):
                                     self.stderr.write("Unable to find user %s in database... skipping..." % data["user"]["id"])
                                     skip = True
                                     continue
-                            tweet = Tweet(tweet_id=data["id"], full_data=data, full_text=tweet.text(), user=user, deleted=deleted)
+                            tweet = Tweet(tweet_id=data["id"], full_data=data, user=user, deleted=deleted)
+                            tweet.full_text = tweet.text()[:300]
                             if tweet.tweet_id not in existing_ids:
                                 to_batch_insert.append(tweet)
                                 total_imported += 1
                                 user_imported += 1
                 if not skip and user != None:
                     Tweet.objects.bulk_create(to_batch_insert)
+                    user.deleted_count = Tweet.objects.filter(user=user, deleted=True).count()
+                    user.save()
                     self.stdout.write(self.style.SUCCESS("Successfully imported %s tweets from @%s, of which %s were deleted." % (str(user_imported), user.full_data["screen_name"], str(user_deleted))))
         self.stdout.write(self.style.SUCCESS("Successfully imported %s tweets!" % str(total_imported)))
