@@ -17,7 +17,7 @@ spec:
     spec:
       containers:
       - name: "polititweet"
-        image: "gcr.io/polititweet/github.com/milesmcc/polititweet:afa15b06795bff25baf3f5963270887264090c8d"
+        image: "gcr.io/polititweet/github.com/milesmcc/polititweet:latest"
         env:
         - name: SECRET_KEY
           valueFrom:
