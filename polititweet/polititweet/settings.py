@@ -20,7 +20,7 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 # See https://docs.djangoproject.com/en/2.1/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = os.environ.get("secret_key")
+SECRET_KEY = os.environ.get("SECRET_KEY")
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = False
@@ -28,10 +28,10 @@ DEBUG = False
 ALLOWED_HOSTS = []
 
 TWITTER_CREDENTIALS = {
-    "consumer_key": os.environ.get("consumer_key"),
-    "consumer_secret": os.environ.get("consumer_secret"),
-    "access_token": os.environ.get("access_token"),
-    "access_secret": os.environ.get("access_secret")
+    "consumer_key": os.environ.get("CONSUMER_KEY"),
+    "consumer_secret": os.environ.get("CONSUMER_SECRET"),
+    "access_token": os.environ.get("ACCESS_TOKEN"),
+    "access_secret": os.environ.get("ACCESS_SECRET")
 }
 
 
@@ -86,11 +86,11 @@ WSGI_APPLICATION = 'polititweet.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        'NAME': os.environ.get("db_name"),
-        'USER': os.environ.get("db_user"),
-        'PASSWORD': os.environ.get("db_password"),
-        'HOST': os.environ.get("db_host"),
-        'PORT': os.environ.get("db_port"),
+        'NAME': os.environ.get("DB_NAME"),
+        'USER': os.environ.get("DB_USER"),
+        'PASSWORD': os.environ.get("DB_PASSWORD"),
+        'HOST': os.environ.get("DB_HOST"),
+        'PORT': os.environ.get("DB_PORT"),
     }
 }
 
