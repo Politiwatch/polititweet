@@ -41,7 +41,7 @@ def index(request):
     deletors = User.objects.order_by("-deleted_count")
     total_figures = deletors.count()
     total_tweets = tweets.count()
-    total_deleted = deletors.count()
+    total_deleted = deleted.count()
     most_recently_deleted = _first_or_none(deleted)
     context = {"total_figures": total_figures,
                "total_tweets": total_tweets,
