@@ -3,6 +3,7 @@ import tweepy
 from django.core.management.base import BaseCommand, CommandError
 from ...models import Tweet, User
 from django.conf import settings
+import sys
 
 following = []
 
@@ -53,3 +54,4 @@ class ArchiveStreamListener(tweepy.StreamListener):
             print("Archived tweet from from @%s (%s)." % (status.user.screen_name, status.user.id))
         except Exception as e:
             print("Error on %s: %s" % (str(status.id), str(e)))
+            sys.exit(1)
