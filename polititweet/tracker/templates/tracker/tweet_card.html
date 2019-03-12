@@ -18,7 +18,7 @@
                     <span class="has-text-grey-light">&mdash;&nbsp;PolitiTweet.org</span>
                 </p>
                 <div class="tags is-pulled-bottom small-top-margin">
-                    <span class="tag is-white is-paddingless">{{tweet.day|naturalday|title}}</span>
+                    <span class="tag is-white is-paddingless">Published {{tweet.day|naturalday|title}}</span>
                     {% if tweet.deleted %}
                     <span class="tag is-danger">Deleted</span>
                     {% endif %}
