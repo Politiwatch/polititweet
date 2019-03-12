@@ -10,15 +10,15 @@
             </div>
             <div class="column">
                 <p>
-                    <strong>{{tweet.user.full_data.name}}</strong> <span class="has-text-grey" href="https://twitter.com/{{tweet.user.full_data.screen_name}}"
+                    <strong>{{tweet.user.full_data.name|safe}}</strong> <span class="has-text-grey" href="https://twitter.com/{{tweet.user.full_data.screen_name}}"
                         target="_blank">@{{tweet.user.full_data.screen_name}}</span>
                 </p>
                 <p class="small-top-margin">
-                    {{tweet.text}}
+                    {{tweet.text|safe}}
                     <span class="has-text-grey-light">&mdash;&nbsp;PolitiTweet.org</span>
                 </p>
                 <div class="tags is-pulled-bottom small-top-margin">
-                    <span class="tag is-white is-paddingless">{{tweet.day}}</span>
+                    <span class="tag is-white is-paddingless">{{tweet.day|naturalday|title}}</span>
                     {% if tweet.deleted %}
                     <span class="tag is-danger">Deleted</span>
                     {% endif %}

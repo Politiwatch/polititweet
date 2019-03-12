@@ -12,7 +12,7 @@
                             </figure>
                         </div>
                         <div class="column">
-                            <a href="{% url 'figure' %}?account={{figure.user_id}}"><h1 class="title">{{figure.full_data.name}}</h1></a>
+                            <a href="{% url 'figure' %}?account={{figure.user_id}}"><h1 class="title">{{figure.full_data.name|safe}}</h1></a>
                             <p class="subtitle has-text-link"><a href="https://twitter.com/{{figure.full_data.screen_name}}"
                                     target="_blank">@{{figure.full_data.screen_name}} &nearr;</a></p>
                         </div>

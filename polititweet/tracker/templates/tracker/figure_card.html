@@ -10,11 +10,11 @@
         <div class="media-content no-scroll">
             <div class="content">
                 <p class="is-marginless">
-                    <strong>{{figure.full_data.name}}</strong> <span class="has-text-grey" href="https://twitter.com/{{figure.full_data.screen_name}}"
+                    <strong>{{figure.full_data.name|safe}}</strong> <span class="has-text-grey" href="https://twitter.com/{{figure.full_data.screen_name}}"
                         target="_blank">@{{figure.full_data.screen_name}}</span>
                 </p>
                 <p class="small-top-margin">
-                    {{figure.full_data.description}}
+                    {{figure.full_data.description|safe}}
                 </p>
                 <div class="tags small-top-margin">
                     {% if figure.deleted_count > 0 %}
