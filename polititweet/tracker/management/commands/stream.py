@@ -35,7 +35,11 @@ class ArchiveStreamListener(tweepy.StreamListener):
         if status.user.id not in following:
             return
         try:
-            user = User.objects.get(user_id=status.user.id)
+            user = None
+            try:
+                user = User.objects.get(user_id=status.user.id)
+            except User.DoesNotExist:
+                return
 
             # Check for potential deleted tweet
             if user.full_data["statuses_count"] >= status.user.statuses_count:
