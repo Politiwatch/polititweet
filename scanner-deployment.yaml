@@ -17,7 +17,7 @@ spec:
     spec:
       containers:
       - name: "streamer"
-        image: "gcr.io/polititweet/github.com/milesmcc/polititweet:latest"
+        image: "gcr.io/polititweet/github.com/milesmcc/polititweet"
         command: ["python", "manage.py", "stream"]
         env:
         - name: CONSUMER_KEY
@@ -90,7 +90,7 @@ spec:
     spec:
       containers:
       - name: "scanner"
-        image: "gcr.io/polititweet/github.com/milesmcc/polititweet:latest"
+        image: "gcr.io/polititweet/github.com/milesmcc/polititweet"
         command: ["python", "manage.py", "scan", "--infinite"]
         env:
         - name: CONSUMER_KEY
