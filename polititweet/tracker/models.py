@@ -9,6 +9,7 @@ class User(models.Model):
     added_date = models.DateTimeField(auto_now_add=True, db_index=True)
     deleted_count = models.BigIntegerField(default=0, db_index=True) # big integer, b/c you never know
     flagged = models.BooleanField(default=False)
+    monitored = models.BooleanField(default=True)
 
 class Tweet(models.Model):
     tweet_id = models.BigIntegerField(primary_key=True, db_index=True)

@@ -30,6 +30,19 @@ class Command(BaseCommand):
 
             self.stdout.write("Starting update on %s users..." %
                             str(len(following)))
+
+            users = User.objects.all()
+            for user in users:
+                if user.user_id not in following:
+                    if user.monitored:
+                        user.monitored = False
+                        user.save()
+                        print("Marked %s as unmonitored!" % str(user.user_id))
+                else:
+                    if not user.monitored:
+                        user.monitored = True
+                        user.save()
+                        print("Marked %s as monitored!" % str(user.user_id))
             completed = 0
             flagged_accounts = [user.user_id for user in User.objects.filter(flagged=True)]
             random.shuffle(following)  # shuffle order to get even coverage

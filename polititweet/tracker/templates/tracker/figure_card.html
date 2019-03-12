@@ -25,6 +25,9 @@
                     {% if figure.flagged %}
                     <span class="tag is-warning">Flagged for Processing</span>
                     {% endif %}
+                    {% if not figure.monitored %}
+                    <span class="tag is-info">No Longer Monitored</span>
+                    {% endif %}
                 </div>
             </div>
         </div>
