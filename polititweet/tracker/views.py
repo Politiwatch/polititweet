@@ -40,7 +40,7 @@ def _search(query, *items):
 
 def index(request):
     deleted = Tweet.objects.filter(deleted=True).order_by("-tweet_id")
-    tweets = Tweet.objects.order_by("-tweet_id")
+    tweets = Tweet.objects.order_by("-modified_date")
     deletors = User.objects.order_by("-deleted_count")
     total_figures = deletors.count()
     last_archived = tweets[0].modified_date
