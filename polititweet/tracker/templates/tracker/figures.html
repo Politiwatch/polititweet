@@ -2,6 +2,7 @@
 
 {% load static %}
 {% load paginator %}
+{% load humanize %}
 
 {% block head %}
 <link rel="stylesheet" href="{% static 'tracker/figures.css' %}">
@@ -17,7 +18,7 @@ Monitored Figures | PolitiTweet
         <div class="columns is-vcentered">
             <div class="column">
                 <h1 class="title">Figures</h1>
-                <p class="subtitle">PolitiTweet currently tracks <strong>{{all_figures}}</strong> public figures.</p>
+                <p class="subtitle">PolitiTweet currently tracks <strong>{{all_figures|intcomma}}</strong> public figures.</p>
             </div>
             <div class="column is-narrow">
                 <div class="search">
