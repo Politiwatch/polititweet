@@ -92,16 +92,27 @@ def figure(request):
 def tweets(request):
     user_id = _get(request, "account")
     user = get_object_or_404(User, user_id=user_id)
-    deleted = _get(request, "deleted", default="False") == "True"
+    deleted = _get(request, "deleted", default="Neither")
+    if deleted == "True":
+        deleted = True
+    elif deleted == "False":
+        deleted = False
+    else:
+        deleted = None
     search = _get(request, "search", default="")
     page = int(_get(request, "page", default=1))
     active = "deleted" if deleted else "archive"
     matched_tweets = []
-    if len(search) > 0:  # todo: move search to db side?
-        matched_tweets = Tweet.objects.filter(user=user, deleted=deleted, full_text__search=search).order_by("-tweet_id")
-        print(matched_tweets.explain())
+    if len(search) > 0:
+        if deleted == None:
+            matched_tweets = Tweet.objects.filter(user=user, full_text__search=search).order_by("-tweet_id")
+        else:
+            matched_tweets = Tweet.objects.filter(user=user, deleted=deleted, full_text__search=search).order_by("-tweet_id")
     else:
-        matched_tweets = Tweet.objects.filter(user=user, deleted=deleted).order_by("-tweet_id")
+        if deleted == None:
+            matched_tweets = Tweet.objects.filter(user=user).order_by("-tweet_id")
+        else:
+            matched_tweets = Tweet.objects.filter(user=user, deleted=deleted).order_by("-tweet_id")
     paginator = Paginator(matched_tweets, 30)
     page_obj = paginator.get_page(page)
     context = {
@@ -112,6 +123,7 @@ def tweets(request):
         "page_obj": page_obj,
         "tweets": page_obj,
         "paginator": paginator,
+        "deleted_filter": deleted,
         "url_parameters": "&deleted=%s&account=%s&search=%s" % (deleted, user_id, search)
     }
     return render(request, 'tracker/tweets.html', context)

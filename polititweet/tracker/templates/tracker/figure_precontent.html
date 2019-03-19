@@ -26,8 +26,9 @@
                                 <div class="control">
                                     <span class="select">
                                         <select name="deleted">
-                                            <option value="False">No Filter</option>
-                                            <option value="True"{% if active == "deleted" %}selected{% endif %}>Deleted</option>
+                                            <option value="Any" {% if deleted_filter == None %}selected{% endif %}>No Filter</option>
+                                            <option value="True" {% if deleted_filter == True %}selected{% endif %}>Deleted</option>
+                                            <option value="False" {% if deleted_filter == False %}selected{% endif %}>Not Deleted</option>
                                         </select>
                                     </span>
                                 </div>
