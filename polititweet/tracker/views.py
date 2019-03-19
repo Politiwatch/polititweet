@@ -6,6 +6,7 @@ from django.core.paginator import Paginator
 from django.contrib.postgres.search import SearchVector
 from django.db.models import TextField
 from django.db.models.functions import Cast
+from .util import first_or_none
 
 ITEMS_PER_PAGE = 50
 
@@ -18,13 +19,6 @@ def _get(request, param, default=None):
         else:
             return default
     return value
-
-
-def _first_or_none(obj):
-    try:
-        return obj[0]
-    except:
-        return None
 
 
 def _search(query, *items):
@@ -45,7 +39,7 @@ def index(request):
     total_figures = deletors.count()
     last_archived = tweets[0].modified_date
     total_deleted = deleted.count()
-    most_recently_deleted = _first_or_none(deleted)
+    most_recently_deleted = first_or_none(deleted)
     context = {"total_figures": total_figures,
                "last_archived": last_archived,
                "total_deleted": total_deleted,
@@ -128,16 +122,12 @@ def tweet(request):
     tweet = get_object_or_404(Tweet, tweet_id=tweet_id)
     figure = tweet.user
     active = "deleted" if tweet.deleted else "archive"
-    tweet_before = _first_or_none(Tweet.objects.filter(
-        user=figure, tweet_id__lt=tweet_id).order_by("-tweet_id"))
-    tweet_after = _first_or_none(Tweet.objects.filter(
-        user=figure, tweet_id__gt=tweet_id).order_by("tweet_id"))
     context = {
         "tweet": tweet,
         "figure": figure,
         "active": active,
-        "preceding": tweet_before,
-        "following": tweet_after
+        "preceding": tweet.preceding,
+        "following": tweet.following
     }
     return render(request, 'tracker/tweet.html', context)
 
