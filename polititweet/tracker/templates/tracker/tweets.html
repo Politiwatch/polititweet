@@ -9,7 +9,11 @@
 {% endblock %}
 
 {% block title %}
+{% if active == "deleted" %}
+@{{figure.full_data.screen_name}} Deleted Tweets | PolitiTweet
+{% else %}
 @{{figure.full_data.screen_name}} Tweets | PolitiTweet
+{% endif %}
 {% endblock %}
 
 {% block precontent %}
