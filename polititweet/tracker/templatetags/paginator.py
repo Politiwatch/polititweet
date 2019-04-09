@@ -35,3 +35,7 @@ def pagination(page, url_parameters=None, begin_pages=2, end_pages=2, before_cur
             'middle' : middle,
             'end' : end,
             'url_parameters' : url_parameters}
+
+@register.filter(name="enable_pagination")
+def enable_pagination(value):
+    return value.replace("&pagination=False","")
