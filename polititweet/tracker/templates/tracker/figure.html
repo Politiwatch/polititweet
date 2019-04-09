@@ -73,9 +73,12 @@
         <p class="heading displaced">Location</p>
         <p>{{figure.full_data.location|default:"<span class='has-text-grey'>No Location</span>"}}</p>
 
-        <p class="heading displaced">Link</p>
+        <p class="heading displaced">Website</p>
         <p>{% if figure.full_data.url %}<a href="{{figure.full_data.url}}">{% endif %}
                 {{figure.full_data.url|default:"<span class='has-text-grey'>No Link</span></i>"}}{% if figure.full_data.url %}</a>{% endif %}</p>
+
+        <p class="heading displaced">View on Twitter</p>
+        <a href="https://twitter.com/{{figure.full_data.screen_name}}" class="small-top-margin button is-small is-info is-outlined">Twitter.com</a>
     </div>
     <div class="column is-offset-1 is-9">
         <!-- <p class="heading">Recently Deleted Tweets</p> -->
