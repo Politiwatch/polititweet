@@ -19,7 +19,7 @@ class Tweet(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE, db_index=True)
     deleted = models.BooleanField(default=False, db_index=True)
     hibernated = models.BooleanField(default=False)
-    full_text = models.CharField(default=None, blank=True, null=True, max_length=300, db_index=True)
+    full_text = models.CharField(default=None, blank=True, null=True, max_length=400, db_index=True)
 
     def save(self, *args, **kwargs):
         if self.full_text == None:
