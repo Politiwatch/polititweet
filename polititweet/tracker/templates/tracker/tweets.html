@@ -31,7 +31,9 @@
 </article>
 {% endif %}
 
-<p class="is-size-7 has-text-grey">Showing page <strong>{{page_obj.number}}</strong> of <strong>{{paginator.num_pages}}</strong>.<br><br></p>
+<p class="is-size-7 has-text-grey">Showing page <strong>{{page_obj.number}}</strong> of <strong>{{paginator.num_pages}}</strong>.
+
+<br><br></p>
 
 {% if total_matched == 0 and not search_query %}
 <article class="message is-info">
@@ -48,4 +50,14 @@
 </div>
 <br>
 {% pagination page_obj url_parameters=url_parameters %}
+<br>
+<div class="has-text-centered is-small">
+    <small>
+        {% if pagination_enabled %}
+        <a href="{{request.get_full_path}}&pagination=False" class="has-text-dark"><u>Temporarily disable pagination.</u></a>
+        {% else %}
+        <a href="{{request.get_full_path|enable_pagination}}" class="has-text-dark"><u>Enable normal pagination.</u></a>
+        {% endif %}
+    </small>
+</div>
 {% endblock %}

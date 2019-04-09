@@ -93,6 +93,11 @@ def tweets(request):
     user_id = _get(request, "account")
     user = get_object_or_404(User, user_id=user_id)
     deleted = _get(request, "deleted", default="Neither")
+    pagination_enabled = request.GET.get("pagination", "True")
+    if pagination_enabled == "False":
+        pagination_enabled = False
+    else:
+        pagination_enabled = True
     if deleted == "True":
         deleted = True
     elif deleted == "False":
@@ -113,7 +118,10 @@ def tweets(request):
             matched_tweets = Tweet.objects.filter(user=user).order_by("-tweet_id")
         else:
             matched_tweets = Tweet.objects.filter(user=user, deleted=deleted).order_by("-tweet_id")
-    paginator = Paginator(matched_tweets, 30)
+    page_len = 30
+    if not pagination_enabled:
+        page_len = len(matched_tweets)
+    paginator = Paginator(matched_tweets, page_len)
     page_obj = paginator.get_page(page)
     context = {
         "figure": user,
@@ -123,6 +131,7 @@ def tweets(request):
         "page_obj": page_obj,
         "tweets": page_obj,
         "paginator": paginator,
+        "pagination_enabled": pagination_enabled,
         "deleted_filter": deleted,
         "url_parameters": "&deleted=%s&account=%s&search=%s" % (deleted, user_id, search)
     }
