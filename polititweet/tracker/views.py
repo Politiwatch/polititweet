@@ -110,14 +110,14 @@ def tweets(request):
     matched_tweets = []
     if len(search) > 0:
         if deleted == None:
-            matched_tweets = Tweet.objects.filter(user=user, full_text__search=search).order_by("-tweet_id")
+            matched_tweets = Tweet.objects.filter(user=user, full_text__search=search).prefetch_related("user").order_by("-tweet_id")
         else:
-            matched_tweets = Tweet.objects.filter(user=user, deleted=deleted, full_text__search=search).order_by("-tweet_id")
+            matched_tweets = Tweet.objects.filter(user=user, deleted=deleted, full_text__search=search).prefetch_related("user").order_by("-tweet_id")
     else:
         if deleted == None:
-            matched_tweets = Tweet.objects.filter(user=user).order_by("-tweet_id")
+            matched_tweets = Tweet.objects.filter(user=user).prefetch_related("user").order_by("-tweet_id")
         else:
-            matched_tweets = Tweet.objects.filter(user=user, deleted=deleted).order_by("-tweet_id")
+            matched_tweets = Tweet.objects.filter(user=user, deleted=deleted).prefetch_related("user").order_by("-tweet_id")
     page_len = 30
     if not pagination_enabled:
         page_len = len(matched_tweets)

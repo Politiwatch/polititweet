@@ -28,8 +28,10 @@
                     {% if tweet.hibernated %}
                     <span class="tag is-light">Hibernated</span>
                     {% endif %}
-                    {% if tweet.likely_typo %}
-                    <span class="tag is-info">Just a Typo</span>
+                    {% if not abridged %}
+                        {% if tweet.likely_typo %}
+                        <span class="tag is-info">Just a Typo</span>
+                        {% endif %}
                     {% endif %}
                 </div>
             </div>

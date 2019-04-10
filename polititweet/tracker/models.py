@@ -50,7 +50,8 @@ class Tweet(models.Model):
         if following == None:
             return False
         following_text = following.text()
-        return similarity(self.text(), following_text) > 0.85
+        result = similarity(self.text(), following_text) > 0.85
+        return result
 
     @property
     def is_retweet(self):

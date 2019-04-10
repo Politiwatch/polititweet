@@ -31,8 +31,12 @@
 </article>
 {% endif %}
 
-<p class="is-size-7 has-text-grey">Showing page <strong>{{page_obj.number}}</strong> of <strong>{{paginator.num_pages}}</strong>.
-
+<p class="is-size-7 has-text-grey">
+{% if pagination_enabled %}
+Showing page <strong>{{page_obj.number}}</strong> of <strong>{{paginator.num_pages}}</strong>.
+{% else %}
+Pagination is currently disabled. <a href="{{request.get_full_path|enable_pagination}}" class="has-text-dark"><u>Enable normal pagination.</u></a>
+{% endif %}
 <br><br></p>
 
 {% if total_matched == 0 and not search_query %}
@@ -44,9 +48,15 @@
 {% endif %}
 
 <div class="grid">
+    {% if not pagination_enabled %}
+    {% for tweet in tweets %}
+    {% include 'tracker/tweet_card.html' with abridged=True %}
+    {% endfor %}
+    {% else %}
     {% for tweet in tweets %}
     {% include 'tracker/tweet_card.html' %}
     {% endfor %}
+    {% endif %}
 </div>
 <br>
 {% pagination page_obj url_parameters=url_parameters %}
