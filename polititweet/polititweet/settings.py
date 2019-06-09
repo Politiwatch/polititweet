@@ -39,6 +39,7 @@ TWITTER_CREDENTIALS = {
 
 INSTALLED_APPS = [
     'tracker.apps.TrackerConfig',
+    'analytics.apps.AnalyticsConfig',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -58,6 +59,7 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'analytics.middleware.AnalyticsMiddleware'
 ]
 
 ROOT_URLCONF = 'polititweet.urls'
