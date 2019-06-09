@@ -1,4 +1,5 @@
 from django.contrib import admin
 from . import models
 
-admin.register(models.Tweet, models.User)
+admin.site.register(models.Tweet)
+admin.site.register(models.User)

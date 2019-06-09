@@ -25,6 +25,8 @@ if settings.DEBUG:
     import debug_toolbar
     urlpatterns = [
         path('__debug__/', include(debug_toolbar.urls)),
+        path('admin/', admin.site.urls),
+        path('analytics/', include('analytics.urls')),
 
         # For django versions before 2.0:
         # url(r'^__debug__/', include(debug_toolbar.urls)),
