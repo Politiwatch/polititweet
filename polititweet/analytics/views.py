@@ -13,7 +13,6 @@ def index(request):
     urls = [distinct_url["url"] for distinct_url in visits.values('url').distinct()]
 
     # tabulate URLs
-    print(urls)
     url_counts = {url: 0 for url in urls}
     for visit in visits:
         url_counts[visit.url] += 1
