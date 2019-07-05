@@ -52,7 +52,7 @@ def index(request):
 
 def figures(request):
     figures = User.objects.all()
-    search = _get(request, "search", default="")
+    search = _get(request, "search", default="").replace("@", "")
     matched_figures = []
     page = int(_get(request, "page", default=1))
     if len(search) > 0:
