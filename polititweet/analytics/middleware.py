@@ -14,5 +14,5 @@ class AnalyticsMiddleware:
 
     def __call__(self, request):
         response = self.get_response(request)
-        Visit.objects.create(ip=get_client_ip(request), url=request.build_absolute_uri())
+        # Visit.objects.create(ip=get_client_ip(request), url=request.build_absolute_uri())
         return response
