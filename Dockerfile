@@ -9,6 +9,6 @@ COPY polititweet .
 
 RUN SECRET_KEY=secretsecretsecret python manage.py collectstatic
 
-EXPOSE 8000
+EXPOSE 8080
 
 CMD [ "./launch.sh" ]
