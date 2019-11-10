@@ -50,7 +50,7 @@ class Command(BaseCommand):
                         print("Marked %s as monitored!" % str(user.user_id))
             completed = 0
             new_accounts = [
-                id for id in following if id not in [user.id for user in users]
+                id for id in following if id not in [user.user_id for user in users]
             ]
             flagged_accounts = [
                 user.user_id for user in User.objects.filter(flagged=True)
