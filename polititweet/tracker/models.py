@@ -21,6 +21,11 @@ class Tweet(models.Model):
     hibernated = models.BooleanField(default=False)
     full_text = models.CharField(default=None, blank=True, null=True, max_length=400, db_index=True)
 
+    class Meta:
+        indexes = [
+            models.Index(fields=['user', 'deleted', '-modified_date']),
+        ]
+
     def save(self, *args, **kwargs):
         if self.full_text == None:
             self.full_text = self.text()
