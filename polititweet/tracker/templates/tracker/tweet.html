@@ -44,7 +44,7 @@ Tweet by @{{figure.full_data.screen_name}} | PolitiTweet
 
             <div class="control">
                 <div class="tags has-addons">
-                    <span class="tag is-dark">Last Seen</span>
+                    <span class="tag is-dark">Last Checked</span>
                     <span class="tag is-info">{{tweet.modified_date|naturalday|title}}</span>
                 </div>
             </div>
@@ -63,6 +63,9 @@ Tweet by @{{figure.full_data.screen_name}} | PolitiTweet
         <p class="heading displaced">Source</p>
         <p>{{tweet.full_data.source|striptags}}</p>
 
+        <p class="heading displaced">View Raw Data</p>
+        <a href="{% url 'tweet' %}?account={{figure.user_id}}&tweet={{tweet.tweet_id}}&raw=True" class="small-top-margin button is-small is-info is-outlined">JSON Data</a>
+
         <p class="heading displaced">View on Twitter</p>
         {% if tweet.deleted %}
         <a href="https://twitter.com/{{figure.full_data.screen_name}}/status/{{tweet.tweet_id}}" class="small-top-margin button is-small is-danger is-outlined">Likely Unavailable</a>
@@ -71,7 +74,7 @@ Tweet by @{{figure.full_data.screen_name}} | PolitiTweet
         {% endif %}
     </div>
     <div class="column is-8">
-        {% include 'tracker/tweet_card.html' %}
+        {% include 'tracker/tweet_card.html' with no_link=True %}
         <div class="columns is-slightly-transparent">
             <div class="column is-fullheight">
                 <p class="heading">

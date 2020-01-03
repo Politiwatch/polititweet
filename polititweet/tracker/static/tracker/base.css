@@ -105,3 +105,31 @@ footer {
 .medium-top-margin {
     margin-top: 20px !important;
 }
+
+.tweet-card {
+    max-width: 100%;
+}
+
+.tweet-media {
+    margin-top: 0.5rem;
+    border: 1px solid #dddddd;
+    border-radius: 6px;
+    padding: 8px;
+    font-size: 13px !important;
+}
+
+.tweet-media .header {
+    font-weight: bolder;
+}
+
+.tweet-media * {
+    margin: 0px !important;
+    font-size: 13px !important;
+    text-overflow: ellipsis;
+}
+
+.tweet-media .link {
+    color: #888888;
+    overflow-x: hidden;
+    width: 75%;
+}

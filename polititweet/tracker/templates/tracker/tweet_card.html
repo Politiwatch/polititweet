@@ -1,6 +1,6 @@
 {% load humanize %}
 
-<a href="{% url 'tweet' %}?account={{tweet.full_data.user.id}}&tweet={{tweet.tweet_id}}" class="box tweet-card">
+<{% if no_link %}div{% else %}a href="{% url 'tweet' %}?account={{tweet.full_data.user.id}}&tweet={{tweet.tweet_id}}"{% endif %} class="box tweet-card">
     <article class="media">
         <div class="columns is-mobile">
             <div class="column is-narrow">
@@ -17,6 +17,9 @@
                     {{tweet.text|safe}}
                     <span class="has-text-grey-light">&mdash;&nbsp;PolitiTweet.org</span>
                 </p>
+                {% if tweet.full_data.quoted_status %}
+                    {% include "tracker/media.html" with tag=tweet.full_data.quoted_status.user.screen_name title=tweet.full_data.quoted_status.user.name content=tweet.full_data.quoted_status.text url=tweet.full_data.quoted_status_permalink.expanded %}
+                {% endif %}
                 <div class="tags is-pulled-bottom small-top-margin">
                     <span class="tag is-white is-paddingless">Published {{tweet.day|naturalday|title}}</span>
                     {% if tweet.is_retweet %}
@@ -37,4 +40,4 @@
             </div>
         </div>
     </article>
-</a>
+</{% if no_link %}div{% else %}a{% endif %}>
