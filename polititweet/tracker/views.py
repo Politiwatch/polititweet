@@ -1,6 +1,6 @@
 import math
 from django.shortcuts import render, get_object_or_404
-from django.http import HttpResponse, Http404
+from django.http import HttpResponse, Http404, JsonResponse
 from .models import User, Tweet
 from django.core.paginator import Paginator
 from django.contrib.postgres.search import SearchVector
@@ -141,6 +141,8 @@ def tweets(request):
 def tweet(request):
     tweet_id = _get(request, "tweet")
     tweet = get_object_or_404(Tweet, tweet_id=tweet_id)
+    if request.GET.get("raw", "False") == "True":
+        return JsonResponse(tweet.full_data)
     figure = tweet.user
     active = "deleted" if tweet.deleted else "archive"
     context = {
@@ -148,7 +150,7 @@ def tweet(request):
         "figure": figure,
         "active": active,
         "preceding": tweet.preceding,
-        "following": tweet.following
+        "following": tweet.following,
     }
     return render(request, 'tracker/tweet.html', context)
 
