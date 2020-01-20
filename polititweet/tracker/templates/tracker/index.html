@@ -34,7 +34,7 @@ PolitiTweet | Twitter Archive and Deleted Tweet Tracker
                     <a class="button is-link is-medium is-hidden-touch" href="{% url 'figures' %}">Explore the Database</a>
                 </div>
                 <div class="column is-offset-1">
-                    <p class="heading">Latest Deleted Tweet</p>
+                    <p class="heading">Recently Deleted Tweet</p>
                     <div class="card">
                         {% with tweet=most_recently_deleted %}
                         {% include 'tracker/tweet_card.html' %}
