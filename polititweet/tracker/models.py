@@ -111,8 +111,8 @@ class Tweet(models.Model):
 
     def datetime(self):
         return datetime.strptime(
-            self.full_data["created_at"], "%a %b %d %H:%M:%S +0000 %Y"
-        ).replace(tzinfo=pytz.UTC)
+            self.full_data["created_at"], "%a %b %d %H:%M:%S %z %Y"
+        )
 
     def day(self):
         return self.datetime().date()
