@@ -4,6 +4,7 @@ from django.contrib.postgres.fields import JSONField
 from django.utils import timezone
 from django.core.cache import cache
 from .util import first_or_none, similarity
+import pytz
 
 
 class User(models.Model):
@@ -110,8 +111,8 @@ class Tweet(models.Model):
 
     def datetime(self):
         return datetime.strptime(
-            self.full_data["created_at"], "%a %b %d %H:%M:%S %z %Y"
-        )
+            self.full_data["created_at"], "%a %b %d %H:%M:%S +0000 %Y"
+        ).replace(tzinfo=pytz.UTC)
 
     def day(self):
         return self.datetime().date()
