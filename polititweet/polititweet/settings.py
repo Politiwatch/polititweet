@@ -34,6 +34,13 @@ TWITTER_CREDENTIALS = {
     "access_secret": os.environ.get("ACCESS_SECRET")
 }
 
+ALERT_TWITTER_CREDENTIALS = {
+    "consumer_key": os.environ.get("ALERT_CONSUMER_KEY"),
+    "consumer_secret": os.environ.get("ALERT_CONSUMER_SECRET"),
+    "access_token": os.environ.get("ALERT_ACCESS_TOKEN"),
+    "access_secret": os.environ.get("ALERT_ACCESS_SECRET")
+}
+
 
 # Application definition
 
