@@ -34,7 +34,7 @@ class Tweet(models.Model):
         indexes = [models.Index(fields=["user", "deleted", "-modified_date"])]
 
     @classmethod
-    def get_current_top_deleted_tweet(cls, since=30, use_cache=True):
+    def get_current_top_deleted_tweet(cls, since=30, use_cache=True, fallback=True):
         if use_cache:
             tweet = cache.get("top_deleted_tweet")
             if tweet != None:
@@ -57,7 +57,7 @@ class Tweet(models.Model):
                 continue
             tweet = tweets[i]
             break
-        if tweet is None:
+        if tweet is None and fallback:
             tweet = (
                 cls.objects.filter(deleted=True)
                 .exclude(full_text__startswith="RT @")

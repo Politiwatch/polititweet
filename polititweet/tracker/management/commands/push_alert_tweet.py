@@ -22,7 +22,10 @@ class Command(BaseCommand):
     def handle(self, *args, **options):
         self.stdout.write("Finding the best tweet to publish...")
         since = options["since"]
-        tweet = Tweet.get_current_top_deleted_tweet(since=options["since"], use_cache=False)
+        tweet = Tweet.get_current_top_deleted_tweet(since=options["since"], use_cache=False, fallback=False)
+        if tweet is None:
+            self.stdout.write("Unable to find viable tweet, halting...")
+            return
         push_contents = f'{tweet.user.full_data["name"]} deleted: "{_clean_tweet(tweet.full_data["text"])}" https://polititweet.org/tweet?account={tweet.user.user_id}&tweet={tweet.tweet_id}'
         self.stdout.write("Authenticating with Twitter...")
         auth = tweepy.OAuthHandler(settings.ALERT_TWITTER_CREDENTIALS["consumer_key"], settings.ALERT_TWITTER_CREDENTIALS["consumer_secret"])
