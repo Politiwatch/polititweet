@@ -33,7 +33,7 @@ class Tweet(models.Model):
     class Meta:
         indexes = [
             models.Index(fields=["user", "deleted", "-modified_date"]),
-            models.Index(fields=["-modified_date"]),
+            models.Index(fields=["-modified_date", "full_text", "deleted"]),
         ]
 
     @classmethod

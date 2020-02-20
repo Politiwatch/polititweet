@@ -90,50 +90,34 @@ def figure(request):
 
 
 def tweets(request):
-    user_id = _get(request, "account")
-    user = get_object_or_404(User, user_id=user_id)
-    deleted = _get(request, "deleted", default="Neither")
-    pagination_enabled = request.GET.get("pagination", "True")
-    if pagination_enabled == "False":
-        pagination_enabled = False
-    else:
-        pagination_enabled = True
-    if deleted == "True":
-        deleted = True
-    elif deleted == "False":
-        deleted = False
-    else:
-        deleted = None
-    search = _get(request, "search", default="")
+    filter_arguments = {}
+    user_id = request.GET.get("account", None)
+    user = User.objects.filter(user_id=user_id).first()
+    if user:
+        filter_arguments["user"] = user
+    deleted = request.GET.get("deleted", "")
+    if deleted != "":
+        filter_arguments["deleted"] = deleted == "True"
+    search = request.GET.get("search", "")
+    if search != "":
+        filter_arguments["full_text__search"] = search
     page = int(_get(request, "page", default=1))
-    active = "deleted" if deleted else "archive"
-    matched_tweets = []
-    if len(search) > 0:
-        if deleted == None:
-            matched_tweets = Tweet.objects.filter(user=user, full_text__search=search).prefetch_related("user").order_by("-tweet_id")
-        else:
-            matched_tweets = Tweet.objects.filter(user=user, deleted=deleted, full_text__search=search).prefetch_related("user").order_by("-tweet_id")
-    else:
-        if deleted == None:
-            matched_tweets = Tweet.objects.filter(user=user).prefetch_related("user").order_by("-tweet_id")
-        else:
-            matched_tweets = Tweet.objects.filter(user=user, deleted=deleted).prefetch_related("user").order_by("-tweet_id")
+    
+    matched_tweets = Tweet.objects.filter(**filter_arguments).prefetch_related("user").order_by("-tweet_id")
+    
     page_len = 30
-    if not pagination_enabled:
-        page_len = len(matched_tweets)
     paginator = Paginator(matched_tweets, page_len)
     page_obj = paginator.get_page(page)
     context = {
         "figure": user,
-        "active": active,
         "total_matched": len(matched_tweets),
+        "active": "deleted" if deleted else "archive",
         "search_query": search,
         "page_obj": page_obj,
         "tweets": page_obj,
         "paginator": paginator,
-        "pagination_enabled": pagination_enabled,
         "deleted_filter": deleted,
-        "url_parameters": "&deleted=%s&account=%s&search=%s" % (deleted, user_id, search)
+        "url_parameters": "&deleted=%s&account=%s&search=%s" % (deleted or "", user_id or "", search or "")
     }
     return render(request, 'tracker/tweets.html', context)
 
