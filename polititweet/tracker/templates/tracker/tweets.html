@@ -1,6 +1,7 @@
 {% extends 'tracker/content.html' %}
 
 {% load humanize %}
+{% load utils %}
 {% load static %}
 {% load paginator %}
 
@@ -48,15 +49,13 @@ Pagination is currently disabled. <a href="{{request.get_full_path|enable_pagina
 {% endif %}
 
 <div class="grid">
+    {% for tweet in tweets %}
     {% if not pagination_enabled %}
-    {% for tweet in tweets %}
     {% include 'tracker/tweet_card.html' with abridged=True %}
-    {% endfor %}
     {% else %}
-    {% for tweet in tweets %}
     {% include 'tracker/tweet_card.html' %}
-    {% endfor %}
     {% endif %}
+    {% endfor %}
 </div>
 <br>
 {% pagination page_obj url_parameters=url_parameters %}
