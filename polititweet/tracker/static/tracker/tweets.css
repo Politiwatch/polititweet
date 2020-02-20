@@ -1,12 +1,14 @@
+@media screen and (min-width: 980px) {
+    .grid {
+        flex-flow: row wrap !important;
+    }
+}
+
 @media screen and (min-width: 1280px) {
     .tweet-card {
         max-width: 32%;
         min-width: 350px;
         margin-bottom: 24px;
-    }
-
-    .grid {
-        flex-flow: row wrap !important;
     }
 }
 
@@ -16,15 +18,13 @@
         min-width: 350px;
         margin-bottom: 24px;
     }
-
-    .grid {
-        flex-flow: row wrap !important;
-    }
 }
 
-.tweet-card {
-    width: 100%;
-    max-width: 100%;
+@media screen and (max-width: 979px) {
+    .tweet-card {
+        width: 100%;
+        max-width: 100%;
+    }
 }
 
 .tweet-media {
