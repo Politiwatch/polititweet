@@ -31,7 +31,10 @@ class Tweet(models.Model):
     )
 
     class Meta:
-        indexes = [models.Index(fields=["user", "deleted", "-modified_date"])]
+        indexes = [
+            models.Index(fields=["user", "deleted", "-modified_date"]),
+            models.Index(fields=["-modified_date"]),
+        ]
 
     @classmethod
     def get_current_top_deleted_tweet(cls, since=30, use_cache=True, fallback=True):
@@ -41,11 +44,15 @@ class Tweet(models.Model):
                 return tweet
         tweets = sorted(
             filter(
-                lambda k: not (k.full_text.startswith("RT @") or k.datetime() < timezone.now() - timezone.timedelta(days=1)),
+                lambda k: not (
+                    k.full_text.startswith("RT @")
+                    or k.datetime() < timezone.now() - timezone.timedelta(days=1)
+                ),
                 cls.objects.filter(
                     deleted=True,
                     hibernated=False,
-                    modified_date__gt=timezone.now() - timezone.timedelta(minutes=since),
+                    modified_date__gt=timezone.now()
+                    - timezone.timedelta(minutes=since),
                 ),
             ),
             key=lambda k: k.full_data["user"]["followers_count"],
@@ -64,7 +71,7 @@ class Tweet(models.Model):
                 .order_by("-modified_date")
                 .first()
             )
-        cache.set("top_deleted_tweet", tweet, timeout=30*60)
+        cache.set("top_deleted_tweet", tweet, timeout=30 * 60)
         return tweet
 
     def save(self, *args, **kwargs):
