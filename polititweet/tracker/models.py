@@ -80,7 +80,7 @@ class Tweet(models.Model):
         super(Tweet, self).save(*args, **kwargs)
 
     def text(self):
-        if self.full_text != "" or self.full_text != None:
+        if self.full_text not in ["", None]:
             return self.full_text
         if "extended_tweet" in self.full_data:
             return self.full_data["extended_tweet"]["full_text"]

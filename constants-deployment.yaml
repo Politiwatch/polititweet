@@ -1,4 +1,4 @@
-apiVersion: "extensions/v1beta1"
+apiVersion: "apps/v1"
 kind: "Deployment"
 metadata:
   name: "streamer"
@@ -17,7 +17,7 @@ spec:
     spec:
       containers:
       - name: "streamer"
-        image: "gcr.io/polititweet/github.com/milesmcc/polititweet:6b0a31e"
+        image: "gcr.io/polititweet/github.com/milesmcc/polititweet:986461f"
         command: ["python", "manage.py", "stream"]
         env:
         - name: CONSUMER_KEY
@@ -71,7 +71,7 @@ spec:
               name: django
               key: secret_key
 ---
-apiVersion: "extensions/v1beta1"
+apiVersion: "apps/v1"
 kind: "Deployment"
 metadata:
   name: "scanner"
@@ -90,7 +90,7 @@ spec:
     spec:
       containers:
       - name: "scanner"
-        image: "gcr.io/polititweet/github.com/milesmcc/polititweet:6b0a31e"
+        image: "gcr.io/polititweet/github.com/milesmcc/polititweet:986461f"
         command: ["python", "manage.py", "scan", "--infinite"]
         env:
         - name: CONSUMER_KEY
@@ -144,73 +144,72 @@ spec:
               name: django
               key: secret_key
 ---
-  apiVersion: "batch/v1beta1"
-  kind: "CronJob"
-  metadata:
-    name: "tweeter"
-    namespace: "default"
-    labels:
-      app: "tweeter"
-  spec:
-    schedule: "*/30 * * * *"
-    jobTemplate:
-      spec:
-        template:
-          spec:
-            restartPolicy: OnFailure
-            containers:
-            - name: "tweeter"
-              image: "gcr.io/polititweet/github.com/milesmcc/polititweet:6b0a31e"
-              command: ["python", "manage.py", "push_alert_tweet", "30"]
-              env:
-              - name: ALERT_CONSUMER_KEY
-                valueFrom:
-                  secretKeyRef:
-                    name: alert-twitter-credentials
-                    key: consumer_key
-              - name: ALERT_CONSUMER_SECRET
-                valueFrom:
-                  secretKeyRef:
-                    name: alert-twitter-credentials
-                    key: consumer_secret
-              - name: ALERT_ACCESS_TOKEN
-                valueFrom:
-                  secretKeyRef:
-                    name: alert-twitter-credentials
-                    key: access_token
-              - name: ALERT_ACCESS_SECRET
-                valueFrom:
-                  secretKeyRef:
-                    name: alert-twitter-credentials
-                    key: access_secret
-              - name: DB_NAME
-                valueFrom:
-                  secretKeyRef:
-                    name: postgres
-                    key: db_name
-              - name: DB_USER
-                valueFrom:
-                  secretKeyRef:
-                    name: postgres
-                    key: db_user
-              - name: DB_PASSWORD
-                valueFrom:
-                  secretKeyRef:
-                    name: postgres
-                    key: db_password
-              - name: DB_HOST
-                valueFrom:
-                  secretKeyRef:
-                    name: postgres
-                    key: db_host
-              - name: DB_PORT
-                valueFrom:
-                  secretKeyRef:
-                    name: postgres
-                    key: db_port
-              - name: SECRET_KEY
-                valueFrom:
-                  secretKeyRef:
-                    name: django
-                    key: secret_key
-  
+apiVersion: "batch/v1beta1"
+kind: "CronJob"
+metadata:
+  name: "tweeter"
+  namespace: "default"
+  labels:
+    app: "tweeter"
+spec:
+  schedule: "*/30 * * * *"
+  jobTemplate:
+    spec:
+      template:
+        spec:
+          restartPolicy: OnFailure
+          containers:
+          - name: "tweeter"
+            image: "gcr.io/polititweet/github.com/milesmcc/polititweet:986461f"
+            command: ["python", "manage.py", "push_alert_tweet", "30"]
+            env:
+            - name: ALERT_CONSUMER_KEY
+              valueFrom:
+                secretKeyRef:
+                  name: alert-twitter-credentials
+                  key: consumer_key
+            - name: ALERT_CONSUMER_SECRET
+              valueFrom:
+                secretKeyRef:
+                  name: alert-twitter-credentials
+                  key: consumer_secret
+            - name: ALERT_ACCESS_TOKEN
+              valueFrom:
+                secretKeyRef:
+                  name: alert-twitter-credentials
+                  key: access_token
+            - name: ALERT_ACCESS_SECRET
+              valueFrom:
+                secretKeyRef:
+                  name: alert-twitter-credentials
+                  key: access_secret
+            - name: DB_NAME
+              valueFrom:
+                secretKeyRef:
+                  name: postgres
+                  key: db_name
+            - name: DB_USER
+              valueFrom:
+                secretKeyRef:
+                  name: postgres
+                  key: db_user
+            - name: DB_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: postgres
+                  key: db_password
+            - name: DB_HOST
+              valueFrom:
+                secretKeyRef:
+                  name: postgres
+                  key: db_host
+            - name: DB_PORT
+              valueFrom:
+                secretKeyRef:
+                  name: postgres
+                  key: db_port
+            - name: SECRET_KEY
+              valueFrom:
+                secretKeyRef:
+                  name: django
+                  key: secret_key
