@@ -26,8 +26,8 @@ class Tweet(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE, db_index=True)
     deleted = models.BooleanField(default=False, db_index=True)
     hibernated = models.BooleanField(default=False)
-    full_text = models.CharField(
-        default=None, blank=True, null=True, max_length=400, db_index=True
+    full_text = models.TextField(
+        default="", blank=True, db_index=True
     )
 
     class Meta:
@@ -75,12 +75,12 @@ class Tweet(models.Model):
         return tweet
 
     def save(self, *args, **kwargs):
-        if self.full_text == None:
+        if self.full_text == "" or self.full_text == None:
             self.full_text = self.text()
         super(Tweet, self).save(*args, **kwargs)
 
     def text(self):
-        if self.full_text != None:
+        if self.full_text != "" or self.full_text != None:
             return self.full_text
         if "extended_tweet" in self.full_data:
             return self.full_data["extended_tweet"]["full_text"]
