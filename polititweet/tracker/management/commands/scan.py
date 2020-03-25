@@ -179,14 +179,17 @@ def scanForDeletedTweet(api, user):
         if tweet.tweet_id not in found_ids and not tweet.deleted:
             try:
                 api.get_status(tweet.tweet_id)
-            except Exception as e:
-                tweet.deleted = True
-                tweet.save()
-                print(
-                    "Found deleted tweet: %s by @%s"
-                    % (str(tweet.tweet_id), user.full_data["screen_name"])
-                )
-                total_deleted += 1
+            except tweepy.TweepError as e:
+                if e.api_code == 144:
+                    tweet.deleted = True
+                    tweet.save()
+                    print(
+                        "Found deleted tweet: %s by @%s"
+                        % (str(tweet.tweet_id), user.full_data["screen_name"])
+                    )
+                    total_deleted += 1
+                else:
+                    raise e
         else:
             if tweet.deleted:
                 tweet.deleted = False
