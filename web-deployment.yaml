@@ -1,51 +1,81 @@
-apiVersion: "extensions/v1beta1"
+apiVersion: "apps/v1"
 kind: "Deployment"
 metadata:
-  name: "webserver"
-  namespace: "default"
+  name: "polititweet-webserver"
   labels:
-    app: "webserver"
+    app: "polititweet-webserver"
 spec:
   replicas: 3
   selector:
     matchLabels:
-      app: "webserver"
+      app: "polititweet-webserver"
   template:
     metadata:
       labels:
-        app: "webserver"
+        app: "polititweet-webserver"
     spec:
+      tolerations:
+      - key: kubernetes.azure.com/scalesetpriority
+        value: spot
+        effect: NoSchedule
       containers:
       - name: "polititweet"
-        image: "gcr.io/polititweet/github.com/milesmcc/polititweet"
+        image: "politiwatch/polititweet:latest"
         env:
         - name: SECRET_KEY
           valueFrom:
             secretKeyRef:
-              name: django
+              name: polititweet-django
               key: secret_key
         - name: DB_NAME
           valueFrom:
             secretKeyRef:
-              name: postgres
+              name: polititweet-postgres
               key: db_name
         - name: DB_USER
           valueFrom:
             secretKeyRef:
-              name: postgres
+              name: polititweet-postgres
               key: db_user
         - name: DB_PASSWORD
           valueFrom:
             secretKeyRef:
-              name: postgres
+              name: polititweet-postgres
               key: db_password
         - name: DB_HOST
           valueFrom:
             secretKeyRef:
-              name: postgres
+              name: polititweet-postgres
               key: db_host
         - name: DB_PORT
           valueFrom:
             secretKeyRef:
-              name: postgres
+              name: polititweet-postgres
               key: db_port
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: polititweet-webserver-service  
+spec:
+  type: ClusterIP
+  ports:
+  - port: 8080
+  selector:
+    app: polititweet-webserver
+---
+apiVersion: networking.k8s.io/v1beta1
+kind: Ingress
+metadata:
+  name: polititweet-webserver-ingress
+  annotations:
+    kubernetes.io/ingress.class: addon-http-application-routing
+spec:
+  rules:
+  - host: polititweet.org
+    http:
+      paths:
+      - backend:
+          serviceName: polititweet-webserver-service
+          servicePort: 8080
+        path: /

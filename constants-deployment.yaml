@@ -1,215 +1,224 @@
 apiVersion: "apps/v1"
 kind: "Deployment"
 metadata:
-  name: "streamer"
-  namespace: "default"
+  name: "polititweet-streamer"
   labels:
-    app: "streamer"
+    app: "polititweet-streamer"
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: "streamer"
+      app: "polititweet-streamer"
   template:
     metadata:
       labels:
-        app: "streamer"
+        app: "polititweet-streamer"
     spec:
+      tolerations:
+      - key: kubernetes.azure.com/scalesetpriority
+        value: spot
+        effect: NoSchedule
       containers:
       - name: "streamer"
-        image: "gcr.io/polititweet/github.com/milesmcc/polititweet:1f439db"
+        image: "politiwatch/polititweet:latest"
         command: ["python", "manage.py", "stream"]
         env:
         - name: CONSUMER_KEY
           valueFrom:
             secretKeyRef:
-              name: twitter-credentials
+              name: polititweet-twitter-credentials
               key: consumer_key
         - name: CONSUMER_SECRET
           valueFrom:
             secretKeyRef:
-              name: twitter-credentials
+              name: polititweet-twitter-credentials
               key: consumer_secret
         - name: ACCESS_TOKEN
           valueFrom:
             secretKeyRef:
-              name: twitter-credentials
+              name: polititweet-twitter-credentials
               key: access_token
         - name: ACCESS_SECRET
           valueFrom:
             secretKeyRef:
-              name: twitter-credentials
+              name: polititweet-twitter-credentials
               key: access_secret
         - name: DB_NAME
           valueFrom:
             secretKeyRef:
-              name: postgres
+              name: polititweet-postgres
               key: db_name
         - name: DB_USER
           valueFrom:
             secretKeyRef:
-              name: postgres
+              name: polititweet-postgres
               key: db_user
         - name: DB_PASSWORD
           valueFrom:
             secretKeyRef:
-              name: postgres
+              name: polititweet-postgres
               key: db_password
         - name: DB_HOST
           valueFrom:
             secretKeyRef:
-              name: postgres
+              name: polititweet-postgres
               key: db_host
         - name: DB_PORT
           valueFrom:
             secretKeyRef:
-              name: postgres
+              name: polititweet-postgres
               key: db_port
         - name: SECRET_KEY
           valueFrom:
             secretKeyRef:
-              name: django
+              name: polititweet-django
               key: secret_key
 ---
 apiVersion: "apps/v1"
 kind: "Deployment"
 metadata:
-  name: "scanner"
-  namespace: "default"
+  name: "polititweet-scanner"
   labels:
-    app: "scanner"
+    app: "polititweet-scanner"
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: "scanner"
+      app: "polititweet-scanner"
   template:
     metadata:
       labels:
-        app: "scanner"
+        app: "polititweet-scanner"
     spec:
+      tolerations:
+      - key: kubernetes.azure.com/scalesetpriority
+        value: spot
+        effect: NoSchedule
       containers:
-      - name: "scanner"
-        image: "gcr.io/polititweet/github.com/milesmcc/polititweet:1f439db"
+      - name: "polititweet-scanner"
+        image: "politiwatch/polititweet:latest"
         command: ["python", "manage.py", "scan", "--infinite"]
         env:
         - name: CONSUMER_KEY
           valueFrom:
             secretKeyRef:
-              name: twitter-credentials
+              name: polititweet-twitter-credentials
               key: consumer_key
         - name: CONSUMER_SECRET
           valueFrom:
             secretKeyRef:
-              name: twitter-credentials
+              name: polititweet-twitter-credentials
               key: consumer_secret
         - name: ACCESS_TOKEN
           valueFrom:
             secretKeyRef:
-              name: twitter-credentials
+              name: polititweet-twitter-credentials
               key: access_token
         - name: ACCESS_SECRET
           valueFrom:
             secretKeyRef:
-              name: twitter-credentials
+              name: polititweet-twitter-credentials
               key: access_secret
         - name: DB_NAME
           valueFrom:
             secretKeyRef:
-              name: postgres
+              name: polititweet-postgres
               key: db_name
         - name: DB_USER
           valueFrom:
             secretKeyRef:
-              name: postgres
+              name: polititweet-postgres
               key: db_user
         - name: DB_PASSWORD
           valueFrom:
             secretKeyRef:
-              name: postgres
+              name: polititweet-postgres
               key: db_password
         - name: DB_HOST
           valueFrom:
             secretKeyRef:
-              name: postgres
+              name: polititweet-postgres
               key: db_host
         - name: DB_PORT
           valueFrom:
             secretKeyRef:
-              name: postgres
+              name: polititweet-postgres
               key: db_port
         - name: SECRET_KEY
           valueFrom:
             secretKeyRef:
-              name: django
+              name: polititweet-django
               key: secret_key
 ---
 apiVersion: "batch/v1beta1"
 kind: "CronJob"
 metadata:
-  name: "tweeter"
-  namespace: "default"
+  name: "polititweet-tweeter"
   labels:
-    app: "tweeter"
+    app: "polititweet-tweeter"
 spec:
   schedule: "*/30 * * * *"
   jobTemplate:
     spec:
       template:
         spec:
+          tolerations:
+          - key: kubernetes.azure.com/scalesetpriority
+            value: spot
+            effect: NoSchedule
           restartPolicy: OnFailure
           containers:
           - name: "tweeter"
-            image: "gcr.io/polititweet/github.com/milesmcc/polititweet:1f439db"
+            image: "politiwatch/polititweet:latest"
             command: ["python", "manage.py", "push_alert_tweet", "30"]
             env:
             - name: ALERT_CONSUMER_KEY
               valueFrom:
                 secretKeyRef:
-                  name: alert-twitter-credentials
+                  name: polititweet-alert-twitter-credentials
                   key: consumer_key
             - name: ALERT_CONSUMER_SECRET
               valueFrom:
                 secretKeyRef:
-                  name: alert-twitter-credentials
+                  name: polititweet-alert-twitter-credentials
                   key: consumer_secret
             - name: ALERT_ACCESS_TOKEN
               valueFrom:
                 secretKeyRef:
-                  name: alert-twitter-credentials
+                  name: polititweet-alert-twitter-credentials
                   key: access_token
             - name: ALERT_ACCESS_SECRET
               valueFrom:
                 secretKeyRef:
-                  name: alert-twitter-credentials
+                  name: polititweet-alert-twitter-credentials
                   key: access_secret
             - name: DB_NAME
               valueFrom:
                 secretKeyRef:
-                  name: postgres
+                  name: polititweet-postgres
                   key: db_name
             - name: DB_USER
               valueFrom:
                 secretKeyRef:
-                  name: postgres
+                  name: polititweet-postgres
                   key: db_user
             - name: DB_PASSWORD
               valueFrom:
                 secretKeyRef:
-                  name: postgres
+                  name: polititweet-postgres
                   key: db_password
             - name: DB_HOST
               valueFrom:
                 secretKeyRef:
-                  name: postgres
+                  name: polititweet-postgres
                   key: db_host
             - name: DB_PORT
               valueFrom:
                 secretKeyRef:
-                  name: postgres
+                  name: polititweet-postgres
                   key: db_port
             - name: SECRET_KEY
               valueFrom:
                 secretKeyRef:
-                  name: django
+                  name: polititweet-django
                   key: secret_key
