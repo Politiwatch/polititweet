@@ -79,3 +79,10 @@ spec:
           serviceName: polititweet-webserver-service
           servicePort: 8080
         path: /
+  - host: beta.polititweet.org
+    http:
+      paths:
+      - backend:
+          serviceName: polititweet-webserver-service
+          servicePort: 8080
+        path: /
