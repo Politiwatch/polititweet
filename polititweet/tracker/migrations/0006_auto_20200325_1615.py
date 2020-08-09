@@ -14,9 +14,5 @@ class Migration(migrations.Migration):
             model_name='tweet',
             name='full_text',
             field=models.TextField(blank=True, db_index=True, default=None, null=True),
-        ),
-        migrations.AddIndex(
-            model_name='tweet',
-            index=models.Index(fields=['user', 'deleted', '-modified_date'], name='tracker_twe_user_id_000811_idx'),
-        ),
+        )
     ]

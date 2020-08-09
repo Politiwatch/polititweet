@@ -2,8 +2,11 @@ FROM python:3
 
 WORKDIR /usr/src/polititweet
 
-COPY requirements.txt ./
-RUN pip install --no-cache-dir -r requirements.txt
+RUN pip install pipenv
+
+COPY Pipfile Pipfile.lock ./
+
+RUN pipenv install --system --deploy
 
 COPY polititweet .
 
