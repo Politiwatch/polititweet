@@ -25,15 +25,16 @@ class Tweet(models.Model):
     modified_date = models.DateTimeField(auto_now=True, db_index=True)
     user = models.ForeignKey(User, on_delete=models.CASCADE, db_index=True)
     deleted = models.BooleanField(default=False, db_index=True)
-    hibernated = models.BooleanField(default=False)
+    hibernated = models.BooleanField(default=False, db_index=True)
     full_text = models.TextField(
         default="", blank=True, db_index=True
     )
 
     class Meta:
         indexes = [
-            models.Index(fields=["user", "deleted", "-modified_date"]),
+            models.Index(fields=["user", "-modified_date", "deleted"]),
             models.Index(fields=["-modified_date", "full_text", "deleted"]),
+            models.Index(fields=["-modified_date"]),
         ]
 
     @classmethod
