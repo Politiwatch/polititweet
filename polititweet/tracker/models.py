@@ -35,6 +35,8 @@ class Tweet(models.Model):
             models.Index(fields=["user", "-modified_date", "deleted"]),
             models.Index(fields=["-modified_date", "full_text", "deleted"]),
             models.Index(fields=["-modified_date"]),
+            models.Index(fields=["user", "full_text", "-modified_date"]),
+            models.Index(fields=["user", "-modified_date", "hibernated"]),
         ]
 
     @classmethod
