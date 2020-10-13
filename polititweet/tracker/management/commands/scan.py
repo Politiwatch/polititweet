@@ -159,7 +159,7 @@ def getAllStatuses(api, user, since=None):
     tweets.extend(new_tweets)
     while len(new_tweets) > 0:
         oldest = tweets[-1].id - 1
-        new_tweets = api.user_timeline(user_id=user.user_id, count=200, max_id=oldest)
+        new_tweets = api.user_timeline(user_id=user.user_id, count=200, max_id=oldest, since_id=since)
         tweets.extend(new_tweets)
     return tweets
 
