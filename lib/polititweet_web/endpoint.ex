@@ -1,4 +1,4 @@
-defmodule PolititweetWeb.Endpoint do
+defmodule PolitiTweetWeb.Endpoint do
   use Phoenix.Endpoint, otp_app: :polititweet
 
   # The session will be stored in the cookie and signed,
@@ -7,7 +7,7 @@ defmodule PolititweetWeb.Endpoint do
   @session_options [
     store: :cookie,
     key: "_polititweet_key",
-    signing_salt: "Tt5Uxqoh"
+    signing_salt: "STMbkzKE"
   ]
 
   socket "/live", Phoenix.LiveView.Socket, websocket: [connect_info: [session: @session_options]]
@@ -46,5 +46,5 @@ defmodule PolititweetWeb.Endpoint do
   plug Plug.MethodOverride
   plug Plug.Head
   plug Plug.Session, @session_options
-  plug PolititweetWeb.Router
+  plug PolitiTweetWeb.Router
 end

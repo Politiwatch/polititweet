@@ -1,4 +1,4 @@
-# Polititweet
+# PolitiTweet
 
 To start your Phoenix server:
 

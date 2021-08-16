@@ -1,4 +1,4 @@
-defmodule Polititweet.MixProject do
+defmodule PolitiTweet.MixProject do
   use Mix.Project
 
   def project do
@@ -19,7 +19,7 @@ defmodule Polititweet.MixProject do
   # Type `mix help compile.app` for more information.
   def application do
     [
-      mod: {Polititweet.Application, []},
+      mod: {PolitiTweet.Application, []},
       extra_applications: [:logger, :runtime_tools]
     ]
   end
@@ -48,7 +48,8 @@ defmodule Polititweet.MixProject do
       {:telemetry_poller, "~> 0.5"},
       {:gettext, "~> 0.11"},
       {:jason, "~> 1.0"},
-      {:plug_cowboy, "~> 2.0"}
+      {:plug_cowboy, "~> 2.0"},
+      {:httpoison, "~> 1.8"}
     ]
   end
 

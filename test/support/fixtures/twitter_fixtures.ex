@@ -1,7 +1,7 @@
-defmodule Polititweet.TwitterFixtures do
+defmodule PolitiTweet.TwitterFixtures do
   @moduledoc """
   This module defines test helpers for creating
-  entities via the `Polititweet.Twitter` context.
+  entities via the `PolitiTweet.Twitter` context.
   """
 
   @doc """
@@ -14,7 +14,7 @@ defmodule Polititweet.TwitterFixtures do
         twitter_id: "some twitter_id",
         username: "some username"
       })
-      |> Polititweet.Twitter.create_user()
+      |> PolitiTweet.Twitter.create_user()
 
     user
   end

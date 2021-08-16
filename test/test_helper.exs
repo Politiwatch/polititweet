@@ -1,2 +1,2 @@
 ExUnit.start()
-Ecto.Adapters.SQL.Sandbox.mode(Polititweet.Repo, :manual)
+Ecto.Adapters.SQL.Sandbox.mode(PolitiTweet.Repo, :manual)

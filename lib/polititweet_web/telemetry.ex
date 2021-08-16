@@ -1,4 +1,4 @@
-defmodule PolititweetWeb.Telemetry do
+defmodule PolitiTweetWeb.Telemetry do
   use Supervisor
   import Telemetry.Metrics
 
@@ -65,7 +65,7 @@ defmodule PolititweetWeb.Telemetry do
     [
       # A module, function and arguments to be invoked periodically.
       # This function must call :telemetry.execute/3 and a metric must be added above.
-      # {PolititweetWeb, :count_users, []}
+      # {PolitiTweetWeb, :count_users, []}
     ]
   end
 end

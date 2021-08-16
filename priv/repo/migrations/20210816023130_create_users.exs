@@ -1,4 +1,4 @@
-defmodule Polititweet.Repo.Migrations.CreateUsers do
+defmodule PolitiTweet.Repo.Migrations.CreateUsers do
   use Ecto.Migration
 
   def change do

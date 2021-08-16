@@ -1,4 +1,4 @@
-defmodule Polititweet.Twitter.User do
+defmodule PolitiTweet.Twitter.User do
   use Ecto.Schema
   import Ecto.Changeset
 

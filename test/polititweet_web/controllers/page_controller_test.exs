@@ -1,5 +1,5 @@
-defmodule PolititweetWeb.PageControllerTest do
-  use PolititweetWeb.ConnCase
+defmodule PolitiTweetWeb.PageControllerTest do
+  use PolitiTweetWeb.ConnCase
 
   test "GET /", %{conn: conn} do
     conn = get(conn, "/")

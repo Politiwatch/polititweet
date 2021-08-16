@@ -1,12 +1,12 @@
-defmodule Polititweet.Twitter do
+defmodule PolitiTweet.Twitter do
   @moduledoc """
   The Twitter context.
   """
 
   import Ecto.Query, warn: false
-  alias Polititweet.Repo
+  alias PolitiTweet.Repo
 
-  alias Polititweet.Twitter.User
+  alias PolitiTweet.Twitter.User
 
   @doc """
   Returns the list of users.

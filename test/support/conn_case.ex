@@ -1,4 +1,4 @@
-defmodule PolititweetWeb.ConnCase do
+defmodule PolitiTweetWeb.ConnCase do
   @moduledoc """
   This module defines the test case to be used by
   tests that require setting up a connection.
@@ -11,7 +11,7 @@ defmodule PolititweetWeb.ConnCase do
   we enable the SQL sandbox, so changes done to the database
   are reverted at the end of every test. If you are using
   PostgreSQL, you can even run database tests asynchronously
-  by setting `use PolititweetWeb.ConnCase, async: true`, although
+  by setting `use PolitiTweetWeb.ConnCase, async: true`, although
   this option is not recommended for other databases.
   """
 
@@ -22,17 +22,17 @@ defmodule PolititweetWeb.ConnCase do
       # Import conveniences for testing with connections
       import Plug.Conn
       import Phoenix.ConnTest
-      import PolititweetWeb.ConnCase
+      import PolitiTweetWeb.ConnCase
 
-      alias PolititweetWeb.Router.Helpers, as: Routes
+      alias PolitiTweetWeb.Router.Helpers, as: Routes
 
       # The default endpoint for testing
-      @endpoint PolititweetWeb.Endpoint
+      @endpoint PolitiTweetWeb.Endpoint
     end
   end
 
   setup tags do
-    pid = Ecto.Adapters.SQL.Sandbox.start_owner!(Polititweet.Repo, shared: not tags[:async])
+    pid = Ecto.Adapters.SQL.Sandbox.start_owner!(PolitiTweet.Repo, shared: not tags[:async])
     on_exit(fn -> Ecto.Adapters.SQL.Sandbox.stop_owner(pid) end)
     {:ok, conn: Phoenix.ConnTest.build_conn()}
   end

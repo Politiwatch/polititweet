@@ -1,5 +1,5 @@
-defmodule PolititweetWeb.LayoutView do
-  use PolititweetWeb, :view
+defmodule PolitiTweetWeb.LayoutView do
+  use PolitiTweetWeb, :view
 
   # Phoenix LiveDashboard is available only in development by default,
   # so we instruct Elixir to not warn if the dashboard route is missing.

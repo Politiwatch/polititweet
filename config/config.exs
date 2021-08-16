@@ -8,15 +8,16 @@
 import Config
 
 config :polititweet,
-  ecto_repos: [Polititweet.Repo]
+  namespace: PolitiTweet,
+  ecto_repos: [PolitiTweet.Repo]
 
 # Configures the endpoint
-config :polititweet, PolititweetWeb.Endpoint,
+config :polititweet, PolitiTweetWeb.Endpoint,
   url: [host: "localhost"],
-  secret_key_base: "+TKfvA1dv/GnblRZWYINRsLFhByI63KlVX0XsXukuFwWuyCQcivx7HP29XK1XM8m",
-  render_errors: [view: PolititweetWeb.ErrorView, accepts: ~w(html json), layout: false],
-  pubsub_server: Polititweet.PubSub,
-  live_view: [signing_salt: "BxKpz33a"]
+  secret_key_base: "3FvFG1hTWyqSKiG9bGbeVs410v9FDFggTftX0Z0SFPIjo/y+0Hr5fXqALATLdGHc",
+  render_errors: [view: PolitiTweetWeb.ErrorView, accepts: ~w(html json), layout: false],
+  pubsub_server: PolitiTweet.PubSub,
+  live_view: [signing_salt: "8NVl12vm"]
 
 # Configure esbuild (the version is required)
 config :esbuild,
@@ -34,7 +35,7 @@ config :esbuild,
 #
 # For production it's recommended to configure a different adapter
 # at the `config/runtime.exs`.
-config :polititweet, Polititweet.Mailer, adapter: Swoosh.Adapters.Local
+config :polititweet, PolitiTweet.Mailer, adapter: Swoosh.Adapters.Local
 
 # Swoosh API client is needed for adapters other than SMTP.
 config :swoosh, :api_client, false

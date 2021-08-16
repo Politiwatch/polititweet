@@ -1,3 +1,3 @@
-defmodule PolititweetWeb.PageViewTest do
-  use PolititweetWeb.ConnCase, async: true
+defmodule PolitiTweetWeb.PageViewTest do
+  use PolitiTweetWeb.ConnCase, async: true
 end

@@ -1,5 +1,5 @@
-defmodule PolititweetWeb.Router do
-  use PolititweetWeb, :router
+defmodule PolitiTweetWeb.Router do
+  use PolitiTweetWeb, :router
 
   pipeline :browser do
     plug :accepts, ["html"]
@@ -13,14 +13,14 @@ defmodule PolititweetWeb.Router do
     plug :accepts, ["json"]
   end
 
-  scope "/", PolititweetWeb do
+  scope "/", PolitiTweetWeb do
     pipe_through :browser
 
     get "/", PageController, :index
   end
 
   # Other scopes may use custom stacks.
-  # scope "/api", PolititweetWeb do
+  # scope "/api", PolitiTweetWeb do
   #   pipe_through :api
   # end
 
@@ -36,7 +36,7 @@ defmodule PolititweetWeb.Router do
 
     scope "/" do
       pipe_through :browser
-      live_dashboard "/dashboard", metrics: PolititweetWeb.Telemetry
+      live_dashboard "/dashboard", metrics: PolitiTweetWeb.Telemetry
     end
   end
 

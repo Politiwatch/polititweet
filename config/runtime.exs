@@ -14,7 +14,7 @@ if config_env() == :prod do
       For example: ecto://USER:PASS@HOST/DATABASE
       """
 
-  config :polititweet, Polititweet.Repo,
+  config :polititweet, PolitiTweet.Repo,
     # ssl: true,
     # socket_options: [:inet6],
     url: database_url,
@@ -27,7 +27,7 @@ if config_env() == :prod do
       You can generate one by calling: mix phx.gen.secret
       """
 
-  config :polititweet, PolititweetWeb.Endpoint,
+  config :polititweet, PolitiTweetWeb.Endpoint,
     http: [
       # Enable IPv6 and bind on all interfaces.
       # Set it to  {0, 0, 0, 0, 0, 0, 0, 1} for local network only access.
@@ -43,7 +43,7 @@ if config_env() == :prod do
   # If you are doing OTP releases, you need to instruct Phoenix
   # to start each relevant endpoint:
   #
-  #     config :polititweet, PolititweetWeb.Endpoint, server: true
+  #     config :polititweet, PolitiTweetWeb.Endpoint, server: true
   #
   # Then you can assemble a release by calling `mix release`.
   # See `mix help release` for more information.
@@ -54,7 +54,7 @@ if config_env() == :prod do
   # Also, you may need to configure the Swoosh API client of your choice if you
   # are not using SMTP. Here is an example of the configuration:
   #
-  #     config :polititweet, Polititweet.Mailer,
+  #     config :polititweet, PolitiTweet.Mailer,
   #       adapter: Swoosh.Adapters.Mailgun,
   #       api_key: System.get_env("MAILGUN_API_KEY"),
   #       domain: System.get_env("MAILGUN_DOMAIN")
@@ -66,3 +66,18 @@ if config_env() == :prod do
   #
   # See https://hexdocs.pm/swoosh/Swoosh.html#module-installation for details.
 end
+
+twitter_bearer_tokens =
+  (System.get_env("TWITTER_BEARER_TOKENS") ||
+     raise(
+       "please provide Twitter bearer tokens in the TWITTER_BEARER_TOKENS environment variable (comma separated)"
+     ))
+  |> String.split(",")
+
+twitter_main_user_id =
+  System.get_env("TWITTER_MAIN_USER_ID") ||
+    raise "please provide main Twitter user ID in the TWITTER_MAIN_USER_ID environment variable"
+
+config :polititweet, PolitiTweet.Twitter.Api,
+  bearer_tokens: twitter_bearer_tokens,
+  main_user_id: twitter_main_user_id

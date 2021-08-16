@@ -1,5 +1,5 @@
-defmodule PolititweetWeb.ErrorView do
-  use PolititweetWeb, :view
+defmodule PolitiTweetWeb.ErrorView do
+  use PolitiTweetWeb, :view
 
   # If you want to customize a particular status code
   # for a certain format, you may uncomment below.

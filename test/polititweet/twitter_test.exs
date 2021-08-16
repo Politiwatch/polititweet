@@ -1,12 +1,12 @@
-defmodule Polititweet.TwitterTest do
-  use Polititweet.DataCase
+defmodule PolitiTweet.TwitterTest do
+  use PolitiTweet.DataCase
 
-  alias Polititweet.Twitter
+  alias PolitiTweet.Twitter
 
   describe "users" do
-    alias Polititweet.Twitter.User
+    alias PolitiTweet.Twitter.User
 
-    import Polititweet.TwitterFixtures
+    import PolitiTweet.TwitterFixtures
 
     @invalid_attrs %{twitter_id: nil, username: nil}
 
