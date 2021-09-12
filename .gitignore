@@ -1,6 +1,7 @@
 local
 polititweet/database
 polititweet/staticfiles
+*.dump
 
 # Byte-compiled / optimized / DLL files
 __pycache__/
