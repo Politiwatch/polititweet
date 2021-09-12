@@ -53,8 +53,8 @@ jobs:
     - uses: azure/k8s-deploy@v1
       with:
         manifests: |
-          manifests/constants-deployment.yml
-          manifests/web-deployment.yml
+          manifests/constants-deployment.yaml
+          manifests/web-deployment.yaml
         images: |
           ${{ env.REGISTRY_NAME }}.azurecr.io/${{ env.APP_NAME }}:${{ github.sha }}
         imagepullsecrets: |
