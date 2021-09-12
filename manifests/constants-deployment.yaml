@@ -20,7 +20,7 @@ spec:
         effect: NoSchedule
       containers:
       - name: "streamer"
-        image: "politiwatch/polititweet:latest"
+        image: "politiwatch.azurecr.io/polititweet:latest"
         command: ["python", "manage.py", "stream"]
         env:
         - name: CONSUMER_KEY
@@ -96,7 +96,7 @@ spec:
         effect: NoSchedule
       containers:
       - name: "polititweet-scanner"
-        image: "politiwatch/polititweet:latest"
+        image: "politiwatch.azurecr.io/polititweet:latest"
         command: ["python", "manage.py", "scan", "--infinite"]
         env:
         - name: CONSUMER_KEY
@@ -169,7 +169,7 @@ spec:
           restartPolicy: OnFailure
           containers:
           - name: "tweeter"
-            image: "politiwatch/polititweet:latest"
+            image: "politiwatch.azurecr.io/polititweet:latest"
             command: ["python", "manage.py", "push_alert_tweet", "30"]
             env:
             - name: ALERT_CONSUMER_KEY

@@ -20,7 +20,7 @@ spec:
         effect: NoSchedule
       containers:
       - name: "polititweet"
-        image: "politiwatch/polititweet:latest"
+        image: "politiwatch.azurecr.io/polititweet:latest"
         env:
         - name: SECRET_KEY
           valueFrom:
