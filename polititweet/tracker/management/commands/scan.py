@@ -56,9 +56,11 @@ class Command(BaseCommand):
                 user.user_id for user in User.objects.filter(flagged=True)
             ]
             random.shuffle(following)  # shuffle order to get even coverage
-            for id in new_accounts + flagged_accounts + [
-                id for id in following if id not in flagged_accounts + new_accounts
-            ]:
+            for id in (
+                new_accounts
+                + flagged_accounts
+                + [id for id in following if id not in flagged_accounts + new_accounts]
+            ):
                 try:
                     user_data = None
                     try:
@@ -159,7 +161,9 @@ def getAllStatuses(api, user, since=None):
     tweets.extend(new_tweets)
     while len(new_tweets) > 0:
         oldest = tweets[-1].id - 1
-        new_tweets = api.user_timeline(user_id=user.user_id, count=200, max_id=oldest, since_id=since)
+        new_tweets = api.user_timeline(
+            user_id=user.user_id, count=200, max_id=oldest, since_id=since
+        )
         tweets.extend(new_tweets)
     return tweets
 

@@ -25,9 +25,7 @@ class Tweet(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE, db_index=True)
     deleted = models.BooleanField(default=False, db_index=True)
     hibernated = models.BooleanField(default=False, db_index=True)
-    full_text = models.TextField(
-        default="", blank=True, db_index=True
-    )
+    full_text = models.TextField(default="", blank=True, db_index=True)
 
     class Meta:
         indexes = [
@@ -126,4 +124,3 @@ class Tweet(models.Model):
 
     def day(self):
         return self.datetime().date()
-

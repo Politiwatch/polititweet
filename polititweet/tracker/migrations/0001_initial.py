@@ -9,34 +9,35 @@ class Migration(migrations.Migration):
 
     initial = True
 
-    dependencies = [
-    ]
+    dependencies = []
 
     operations = [
         migrations.CreateModel(
-            name='Tweet',
+            name="Tweet",
             fields=[
-                ('tweet_id', models.BigIntegerField(primary_key=True, serialize=False)),
-                ('full_data', django.contrib.postgres.fields.jsonb.JSONField()),
-                ('modified_date', models.DateTimeField(auto_now=True)),
-                ('deleted', models.BooleanField(default=False)),
-                ('hibernated', models.BooleanField(default=False)),
+                ("tweet_id", models.BigIntegerField(primary_key=True, serialize=False)),
+                ("full_data", django.contrib.postgres.fields.jsonb.JSONField()),
+                ("modified_date", models.DateTimeField(auto_now=True)),
+                ("deleted", models.BooleanField(default=False)),
+                ("hibernated", models.BooleanField(default=False)),
             ],
         ),
         migrations.CreateModel(
-            name='User',
+            name="User",
             fields=[
-                ('user_id', models.BigIntegerField(primary_key=True, serialize=False)),
-                ('full_data', django.contrib.postgres.fields.jsonb.JSONField()),
-                ('modified_date', models.DateTimeField(auto_now=True)),
-                ('added_date', models.DateTimeField(auto_now_add=True)),
-                ('deleted_count', models.BigIntegerField(default=0)),
-                ('flagged', models.BooleanField(default=False)),
+                ("user_id", models.BigIntegerField(primary_key=True, serialize=False)),
+                ("full_data", django.contrib.postgres.fields.jsonb.JSONField()),
+                ("modified_date", models.DateTimeField(auto_now=True)),
+                ("added_date", models.DateTimeField(auto_now_add=True)),
+                ("deleted_count", models.BigIntegerField(default=0)),
+                ("flagged", models.BooleanField(default=False)),
             ],
         ),
         migrations.AddField(
-            model_name='tweet',
-            name='user',
-            field=models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='tracker.User'),
+            model_name="tweet",
+            name="user",
+            field=models.ForeignKey(
+                on_delete=django.db.models.deletion.CASCADE, to="tracker.User"
+            ),
         ),
     ]

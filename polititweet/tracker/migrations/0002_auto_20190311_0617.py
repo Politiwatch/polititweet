@@ -6,43 +6,47 @@ from django.db import migrations, models
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('tracker', '0001_initial'),
+        ("tracker", "0001_initial"),
     ]
 
     operations = [
         migrations.AlterField(
-            model_name='tweet',
-            name='deleted',
+            model_name="tweet",
+            name="deleted",
             field=models.BooleanField(db_index=True, default=False),
         ),
         migrations.AlterField(
-            model_name='tweet',
-            name='modified_date',
+            model_name="tweet",
+            name="modified_date",
             field=models.DateTimeField(auto_now=True, db_index=True),
         ),
         migrations.AlterField(
-            model_name='tweet',
-            name='tweet_id',
-            field=models.BigIntegerField(db_index=True, primary_key=True, serialize=False),
+            model_name="tweet",
+            name="tweet_id",
+            field=models.BigIntegerField(
+                db_index=True, primary_key=True, serialize=False
+            ),
         ),
         migrations.AlterField(
-            model_name='user',
-            name='added_date',
+            model_name="user",
+            name="added_date",
             field=models.DateTimeField(auto_now_add=True, db_index=True),
         ),
         migrations.AlterField(
-            model_name='user',
-            name='deleted_count',
+            model_name="user",
+            name="deleted_count",
             field=models.BigIntegerField(db_index=True, default=0),
         ),
         migrations.AlterField(
-            model_name='user',
-            name='modified_date',
+            model_name="user",
+            name="modified_date",
             field=models.DateTimeField(auto_now=True, db_index=True),
         ),
         migrations.AlterField(
-            model_name='user',
-            name='user_id',
-            field=models.BigIntegerField(db_index=True, primary_key=True, serialize=False),
+            model_name="user",
+            name="user_id",
+            field=models.BigIntegerField(
+                db_index=True, primary_key=True, serialize=False
+            ),
         ),
     ]

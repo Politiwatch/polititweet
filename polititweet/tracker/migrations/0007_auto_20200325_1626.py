@@ -6,13 +6,13 @@ from django.db import migrations, models
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('tracker', '0006_auto_20200325_1615'),
+        ("tracker", "0006_auto_20200325_1615"),
     ]
 
     operations = [
         migrations.AlterField(
-            model_name='tweet',
-            name='full_text',
-            field=models.TextField(blank=True, db_index=True, default=''),
+            model_name="tweet",
+            name="full_text",
+            field=models.TextField(blank=True, db_index=True, default=""),
         ),
     ]

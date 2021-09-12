@@ -43,4 +43,3 @@ class Command(BaseCommand):
         api = tweepy.API(auth_handler=auth)
         api.update_status(push_contents)
         self.stdout.write("Published tweet: " + push_contents)
-

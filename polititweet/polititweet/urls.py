@@ -18,17 +18,16 @@ from django.urls import path, include
 from django.conf import settings
 
 urlpatterns = [
-    path('', include('tracker.urls')),
+    path("", include("tracker.urls")),
 ]
 
 if settings.DEBUG:
     import debug_toolbar
-    urlpatterns = [
-        path('__debug__/', include(debug_toolbar.urls)),
-        path('admin/', admin.site.urls),
-        path('analytics/', include('analytics.urls')),
 
+    urlpatterns = [
+        path("__debug__/", include(debug_toolbar.urls)),
+        path("admin/", admin.site.urls),
+        path("analytics/", include("analytics.urls")),
         # For django versions before 2.0:
         # url(r'^__debug__/', include(debug_toolbar.urls)),
-
     ] + urlpatterns

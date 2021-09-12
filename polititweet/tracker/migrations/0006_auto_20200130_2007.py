@@ -6,12 +6,15 @@ from django.db import migrations, models
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('tracker', '0005_auto_20190408_1838'),
+        ("tracker", "0005_auto_20190408_1838"),
     ]
 
     operations = [
         migrations.AddIndex(
-            model_name='tweet',
-            index=models.Index(fields=['user', 'deleted', '-modified_date'], name='tracker_twe_user_id_000811_idx'),
+            model_name="tweet",
+            index=models.Index(
+                fields=["user", "deleted", "-modified_date"],
+                name="tracker_twe_user_id_000811_idx",
+            ),
         ),
     ]

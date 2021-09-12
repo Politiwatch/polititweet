@@ -6,13 +6,13 @@ from django.db import migrations, models
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('tracker', '0003_tweet_full_text'),
+        ("tracker", "0003_tweet_full_text"),
     ]
 
     operations = [
         migrations.AddField(
-            model_name='user',
-            name='monitored',
+            model_name="user",
+            name="monitored",
             field=models.BooleanField(default=True),
         ),
     ]

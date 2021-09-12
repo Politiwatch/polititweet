@@ -2,6 +2,7 @@ from django import template
 
 register = template.Library()
 
+
 @register.filter
 def split_into_columns(data, columns="2"):
     columns = int(columns)
@@ -9,6 +10,7 @@ def split_into_columns(data, columns="2"):
     for i in range(len(data)):
         split[i % columns].append(data[i])
     return split
+
 
 @register.filter
 def to_https(link):

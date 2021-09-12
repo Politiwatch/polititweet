@@ -6,25 +6,30 @@ from django.db import migrations, models
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('tracker', '0009_merge_20200809_1607'),
+        ("tracker", "0009_merge_20200809_1607"),
     ]
 
     operations = [
         migrations.RemoveIndex(
-            model_name='tweet',
-            name='tracker_twe_user_id_000811_idx',
+            model_name="tweet",
+            name="tracker_twe_user_id_000811_idx",
         ),
         migrations.AlterField(
-            model_name='tweet',
-            name='hibernated',
+            model_name="tweet",
+            name="hibernated",
             field=models.BooleanField(db_index=True, default=False),
         ),
         migrations.AddIndex(
-            model_name='tweet',
-            index=models.Index(fields=['user', '-modified_date', 'deleted'], name='tracker_twe_user_id_578b42_idx'),
+            model_name="tweet",
+            index=models.Index(
+                fields=["user", "-modified_date", "deleted"],
+                name="tracker_twe_user_id_578b42_idx",
+            ),
         ),
         migrations.AddIndex(
-            model_name='tweet',
-            index=models.Index(fields=['-modified_date'], name='tracker_twe_modifie_44db67_idx'),
+            model_name="tweet",
+            index=models.Index(
+                fields=["-modified_date"], name="tracker_twe_modifie_44db67_idx"
+            ),
         ),
     ]
