@@ -67,7 +67,7 @@ def figures(request):
     page_obj = paginator.get_page(page)
     context = {
         "all_figures": User.objects.count(),
-        "total_matched": len(matched_figures),
+        "total_matched": matched_figures.count(),
         "figures": page_obj,
         "page_obj": page_obj,
         "paginator": paginator,
@@ -110,7 +110,7 @@ def tweets(request):
     page_obj = paginator.get_page(page)
     context = {
         "figure": user,
-        "total_matched": len(matched_tweets),
+        "total_matched": matched_tweets.count(),
         "active": "deleted" if deleted else "archive",
         "search_query": search,
         "page_obj": page_obj,
