@@ -26,7 +26,6 @@ class Command(BaseCommand):
 
         self.stdout.write(self.style.SUCCESS("Launching stream...!"))
         stream = tweepy.Stream(auth = auth, listener=ArchiveStreamListener())
-        # stream.filter(follow=[str(user.user_id) for user in users])
         stream.filter(follow=[str(id) for id in following])
         self.stdout.write("Exited!")
 
@@ -59,3 +58,12 @@ class ArchiveStreamListener(tweepy.StreamListener):
         except Exception as e:
             print("Error on %s: %s" % (str(status.id), str(e)))
             sys.exit(1)
+
+    def on_delete(self, status_id, user_id):
+        try:
+            tweet = Tweet.objects.get(tweet_id=status_id)
+            tweet.deleted = True
+            tweet.save()
+            print("Got deleted tweet from #%s." % (user_id))
+        except Exception as e:
+            print("Error on %s: %s" % (str(status_id), str(e)))

@@ -1,6 +1,5 @@
 from datetime import datetime
 from django.db import models
-from django.contrib.postgres.fields import JSONField
 from django.utils import timezone
 from django.core.cache import cache
 from .util import first_or_none, similarity
@@ -9,7 +8,7 @@ import pytz
 
 class User(models.Model):
     user_id = models.BigIntegerField(primary_key=True, db_index=True)
-    full_data = JSONField()
+    full_data = models.JSONField()
     modified_date = models.DateTimeField(auto_now=True, db_index=True)
     added_date = models.DateTimeField(auto_now_add=True, db_index=True)
     deleted_count = models.BigIntegerField(
@@ -21,7 +20,7 @@ class User(models.Model):
 
 class Tweet(models.Model):
     tweet_id = models.BigIntegerField(primary_key=True, db_index=True)
-    full_data = JSONField()
+    full_data = models.JSONField()
     modified_date = models.DateTimeField(auto_now=True, db_index=True)
     user = models.ForeignKey(User, on_delete=models.CASCADE, db_index=True)
     deleted = models.BooleanField(default=False, db_index=True)
@@ -37,6 +36,7 @@ class Tweet(models.Model):
             models.Index(fields=["-modified_date"]),
             models.Index(fields=["user", "full_text", "-modified_date"]),
             models.Index(fields=["user", "-modified_date", "hibernated"]),
+            models.Index(fields=["user", "-tweet_id"]),
         ]
 
     @classmethod

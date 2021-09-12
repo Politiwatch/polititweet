@@ -41,12 +41,13 @@ ALERT_TWITTER_CREDENTIALS = {
     "access_secret": os.environ.get("ALERT_ACCESS_SECRET")
 }
 
+DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
 
 # Application definition
 
 INSTALLED_APPS = [
     'tracker.apps.TrackerConfig',
-    'analytics.apps.AnalyticsConfig',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -55,6 +56,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'django.contrib.humanize',
     'django.contrib.postgres',
+    'debug_toolbar',
 ]
 
 MIDDLEWARE = [
@@ -66,7 +68,7 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
-    'analytics.middleware.AnalyticsMiddleware',
+    'debug_toolbar.middleware.DebugToolbarMiddleware',
 ]
 
 ROOT_URLCONF = 'polititweet.urls'
@@ -187,7 +189,7 @@ LOGGING = {
     }
 }
 
-try:
-    from .local_settings import *
-except ImportError:
-    pass
+# Debug toolbar
+DEBUG_TOOLBAR_CONFIG = {
+    "SHOW_TOOLBAR_CALLBACK": lambda k: os.getenv("DEBUG_TOOLBAR") == "True"
+}
