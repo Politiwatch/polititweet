@@ -26,7 +26,9 @@ def _search(query, *items):
     unused_tokens = [token for token in tokens]
     for token in tokens:
         for item in items:
-            if (token is not None and item is not None) and token.lower() in item.lower():
+            if (
+                token is not None and item is not None
+            ) and token.lower() in item.lower():
                 if token in unused_tokens:
                     unused_tokens.remove(token)
     return len(unused_tokens) == 0

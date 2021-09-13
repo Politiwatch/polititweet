@@ -5,7 +5,7 @@ from django.db import models
 from django.utils import timezone
 from django.core.cache import cache
 from .util import first_or_none, similarity
-import pytz
+import humanize
 
 
 class User(models.Model):
@@ -29,6 +29,7 @@ class Tweet(models.Model):
     modified_date = models.DateTimeField(auto_now=True, db_index=True)
     user = models.ForeignKey(User, on_delete=models.CASCADE, db_index=True)
     deleted = models.BooleanField(default=False, db_index=True)
+    deleted_time = models.DateTimeField(null=True)
     hibernated = models.BooleanField(default=False, db_index=True)
     full_text = models.TextField(default="", blank=True, db_index=True)
     search_vector = SearchVectorField(null=True)
@@ -94,7 +95,9 @@ class Tweet(models.Model):
         super(Tweet, self).save(*args, **kwargs)
 
         # Update the index, post-save
-        Tweet.objects.filter(tweet_id=self.tweet_id).update(search_vector=SearchVector("full_text"))
+        Tweet.objects.filter(tweet_id=self.tweet_id).update(
+            search_vector=SearchVector("full_text")
+        )
 
     def update_user_metadata(self):
         """Updates the associated user with the raw user data in this tweet"""
@@ -109,6 +112,10 @@ class Tweet(models.Model):
             return self.full_data["extended_tweet"]["full_text"]
         else:
             return self.full_data["text"]
+
+    @property
+    def deleted_time_humanized(self):
+        return humanize.naturaldelta(self.deleted_time - self.datetime())
 
     @property
     def following(self):

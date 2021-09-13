@@ -8,17 +8,19 @@ from django.db import migrations
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('tracker', '0012_auto_20210912_1619'),
+        ("tracker", "0012_auto_20210912_1619"),
     ]
 
     operations = [
         migrations.AddField(
-            model_name='tweet',
-            name='search_vector',
+            model_name="tweet",
+            name="search_vector",
             field=django.contrib.postgres.search.SearchVectorField(null=True),
         ),
         migrations.AddIndex(
-            model_name='tweet',
-            index=django.contrib.postgres.indexes.GinIndex(fields=['search_vector'], name='tracker_twe_search__6e13d2_gin'),
+            model_name="tweet",
+            index=django.contrib.postgres.indexes.GinIndex(
+                fields=["search_vector"], name="tracker_twe_search__6e13d2_gin"
+            ),
         ),
     ]

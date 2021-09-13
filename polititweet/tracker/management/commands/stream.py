@@ -3,6 +3,7 @@ import tweepy
 from django.core.management.base import BaseCommand
 from ...models import Tweet, User
 from django.conf import settings
+from django.utils import timezone
 import sys
 
 following = []
@@ -72,6 +73,7 @@ class ArchiveStreamListener(tweepy.StreamListener):
         try:
             tweet = Tweet.objects.get(tweet_id=status_id)
             tweet.deleted = True
+            tweet.deleted_time = timezone.now()
             tweet.save()
             print("Got deleted tweet from #%s." % (user_id))
         except Exception as e:

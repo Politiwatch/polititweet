@@ -21,12 +21,17 @@
                     {% include "tracker/media.html" with tag=tweet.full_data.quoted_status.user.screen_name title=tweet.full_data.quoted_status.user.name content=tweet.full_data.quoted_status.text url=tweet.full_data.quoted_status_permalink.expanded %}
                 {% endif %}
                 <div class="tags is-pulled-bottom small-top-margin">
-                    <span class="tag is-white is-paddingless">Published {{tweet.day|naturalday|title}}</span>
+                    <span class="tag is-white is-paddingless">Posted {{tweet.day|naturalday|title}}</span>
                     {% if tweet.is_retweet %}
                     <span class="tag is-light">Retweet</span>
                     {% endif %}
                     {% if tweet.deleted %}
-                    <span class="tag is-danger">Deleted</span>
+                    <span class="tag is-danger">
+                        Deleted
+                        {% if tweet.deleted_time %}
+                        after {{ tweet.deleted_time_humanized }}
+                        {% endif %}
+                    </span>
                     {% endif %}
                     {% if tweet.hibernated %}
                     <span class="tag is-light">Hibernated</span>

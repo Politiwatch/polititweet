@@ -14,6 +14,7 @@ pytz = ">=2019.2"
 Django = ">=3.0"
 psycopg2-binary = ">=2.9"
 unicodecsv = "*"
+humanize = "3.11.0"
 
 [requires]
 python_version = "3.8"

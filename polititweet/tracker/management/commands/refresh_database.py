@@ -16,11 +16,15 @@ class Command(BaseCommand):
 
         for user in users:
             latest_tweet = user.latest_tweet()
-            if latest_tweet is None: continue
+            if latest_tweet is None:
+                continue
             latest_tweet.update_user_metadata()
             self.stdout.write(f"{latest_tweet.full_data['user']}")
-            
+
             user.refresh_from_db()
-            self.stdout.write("...updated metadata for " + self.style.SUCCESS("@" + user.full_data["screen_name"]))
+            self.stdout.write(
+                "...updated metadata for "
+                + self.style.SUCCESS("@" + user.full_data["screen_name"])
+            )
 
         self.stdout.write(self.style.SUCCESS("Update complete!"))
