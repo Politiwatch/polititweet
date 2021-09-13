@@ -17,6 +17,9 @@ class User(models.Model):
     flagged = models.BooleanField(default=False)
     monitored = models.BooleanField(default=True)
 
+    def latest_tweet(self):
+        return Tweet.objects.filter(user=self).order_by("-tweet_id").first()
+
 
 class Tweet(models.Model):
     tweet_id = models.BigIntegerField(primary_key=True, db_index=True)
@@ -79,6 +82,12 @@ class Tweet(models.Model):
         if self.full_text == "" or self.full_text == None:
             self.full_text = self.text()
         super(Tweet, self).save(*args, **kwargs)
+
+    def update_user_metadata(self):
+        """Updates the associated user with the raw user data in this tweet"""
+        if "user" in self.full_data:
+            self.user.full_data = self.full_data["user"]
+            self.user.save()
 
     def text(self):
         if self.full_text not in ["", None]:
