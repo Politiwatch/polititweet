@@ -5,7 +5,7 @@
         <div class="columns is-mobile">
             <div class="column is-narrow">
                 <figure class="image is-48x48 is-marginless">
-                    <img class="is-rounded" src="{{tweet.user.full_data.profile_image_url|to_https}}" alt="Profile Image">
+                    <img class="is-rounded" src="{{tweet.user.full_data.profile_image_url|to_https}}" onerror="this.src = '{% static 'tracker/default_profile.png' %}'" alt="Profile Image">
                 </figure>
             </div>
             <div class="column">
