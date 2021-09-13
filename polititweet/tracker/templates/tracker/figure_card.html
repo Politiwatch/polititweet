@@ -14,7 +14,7 @@
                         target="_blank">@{{figure.full_data.screen_name}}</span>
                 </p>
                 <p class="small-top-margin">
-                    {{figure.full_data.description|safe}}
+                    {{figure.full_data.description|default:"<span class='has-text-grey'>No Description</span>"}}
                 </p>
                 <div class="tags small-top-margin">
                     {% if figure.deleted_count > 0 %}
