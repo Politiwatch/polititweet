@@ -1,6 +1,6 @@
 import tweepy
 
-from django.core.management.base import BaseCommand, CommandError
+from django.core.management.base import BaseCommand
 from ...models import Tweet, User
 from django.conf import settings
 import sys
@@ -48,14 +48,6 @@ class ArchiveStreamListener(tweepy.StreamListener):
             except User.DoesNotExist:
                 return
 
-            # Check for potential deleted tweet
-            if user.full_data["statuses_count"] >= status.user.statuses_count:
-                print(
-                    "@%s likely deleted a tweet; flagging..." % status.user.screen_name
-                )
-                user.flagged = True
-                user.save()
-
             # Update # of tweets field
             user.full_data["statuses_count"] = status.user.statuses_count
             user.save()
@@ -64,6 +56,10 @@ class ArchiveStreamListener(tweepy.StreamListener):
             id = status.id
             tweet = Tweet(tweet_id=id, full_data=status._json, user=user)
             tweet.save()
+
+            # Update user metadata
+            tweet.update_user_metadata()
+
             print(
                 "Archived tweet from from @%s (%s)."
                 % (status.user.screen_name, status.user.id)
