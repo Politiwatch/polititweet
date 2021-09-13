@@ -75,7 +75,7 @@ def figures(request):
     page_obj = paginator.get_page(page)
     context = {
         "all_figures": User.objects.count(),
-        "total_matched": matched_figures.count(),
+        "total_matched": len(matched_figures),
         "figures": page_obj,
         "page_obj": page_obj,
         "paginator": paginator,
