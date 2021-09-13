@@ -226,9 +226,9 @@ spec:
 apiVersion: "batch/v1beta1"
 kind: "CronJob"
 metadata:
-  name: "polititweet-user-metadata-updater"
+  name: "polititweet-refresh-database"
   labels:
-    app: "polititweet-user-metadata-updater"
+    app: "polititweet-refresh-database"
 spec:
   schedule: "17 3 * * *"
   jobTemplate:
@@ -243,7 +243,7 @@ spec:
           containers:
           - name: "tweeter"
             image: "politiwatch.azurecr.io/polititweet:latest"
-            command: ["python", "manage.py", "update_users"]
+            command: ["python", "manage.py", "refresh_database"]
             env:
             - name: DB_NAME
               valueFrom:

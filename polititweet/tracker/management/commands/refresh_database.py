@@ -1,16 +1,15 @@
-import tweepy
-
 from django.core.management.base import BaseCommand
 from ...models import Tweet, User
-from django.conf import settings
-import sys
 
 
 class Command(BaseCommand):
-    help = "Updates all the users' metadata based on their latest tweet"
+    help = "Updates search indices and metadata"
 
     def handle(self, *args, **options):
-        global following
+        self.stdout.write("Updating Tweet search indices...")
+        Tweet.update_search_index()
+        self.stdout.write(self.style.SUCCESS("Search index update complete!"))
+
         self.stdout.write("Loading accounts to update...")
         users = User.objects.all()
         self.stdout.write("Loaded %s accounts to update." % str(len(users)))

@@ -1,4 +1,6 @@
 from datetime import datetime
+from django.contrib.postgres.search import SearchVector, SearchVectorField
+from django.contrib.postgres.indexes import GinIndex
 from django.db import models
 from django.utils import timezone
 from django.core.cache import cache
@@ -29,6 +31,7 @@ class Tweet(models.Model):
     deleted = models.BooleanField(default=False, db_index=True)
     hibernated = models.BooleanField(default=False, db_index=True)
     full_text = models.TextField(default="", blank=True, db_index=True)
+    search_vector = SearchVectorField(null=True)
 
     class Meta:
         indexes = [
@@ -38,7 +41,12 @@ class Tweet(models.Model):
             models.Index(fields=["user", "full_text", "-modified_date"]),
             models.Index(fields=["user", "-modified_date", "hibernated"]),
             models.Index(fields=["user", "-tweet_id"]),
+            GinIndex(fields=["search_vector"]),
         ]
+
+    @classmethod
+    def update_search_index(cls):
+        Tweet.objects.all().update(search_vector=SearchVector("full_text"))
 
     @classmethod
     def get_current_top_deleted_tweet(cls, since=30, use_cache=True, fallback=True):
@@ -79,9 +87,14 @@ class Tweet(models.Model):
         return tweet
 
     def save(self, *args, **kwargs):
+        # Compute full text
         if self.full_text == "" or self.full_text == None:
             self.full_text = self.text()
+
         super(Tweet, self).save(*args, **kwargs)
+
+        # Update the index, post-save
+        Tweet.objects.filter(tweet_id=self.tweet_id).update(search_vector=SearchVector("full_text"))
 
     def update_user_metadata(self):
         """Updates the associated user with the raw user data in this tweet"""
