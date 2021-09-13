@@ -59,7 +59,6 @@ def figures(request):
     page = int(_get(request, "page", default=1))
     if len(search) > 0:
         for figure in figures:
-            print(figure.full_data)
             if _search(
                 search,
                 figure.full_data["name"],
@@ -111,7 +110,7 @@ def tweets(request):
         filter_arguments["deleted"] = deleted == "True"
     search = request.GET.get("search", "")
     if search != "":
-        filter_arguments["full_text__search"] = search
+        filter_arguments["search_vector"] = search
     page = int(_get(request, "page", default=1))
 
     matched_tweets = (
