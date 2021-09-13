@@ -1,10 +1,10 @@
-{% load humanize utils %}
+{% load humanize utils static %}
 
 <a href="{% url 'figure' %}?account={{figure.user_id}}" class="box figure-card">
     <article class="media">
         <div class="media-left">
             <figure class="image is-48x48">
-                <img class="is-rounded" src="{{figure.full_data.profile_image_url|to_https}}" alt="Profile Image">
+                <img class="is-rounded" src="{{figure.full_data.profile_image_url|to_https}}" onerror="this.src = '{% static 'tracker/default_profile.png' %}'" alt="Profile Image">
             </figure>
         </div>
         <div class="media-content no-scroll">

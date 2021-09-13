@@ -1,4 +1,4 @@
-{% load humanize utils %}
+{% load humanize utils static %}
 
 <section class="hero is-light">
     <div class="hero-body">
@@ -8,7 +8,7 @@
                     <div class="columns is-mobile">
                         <div class="column is-narrow">
                             <figure class="image is-64x64">
-                                <a href="{% url 'figure' %}?account={{figure.user_id}}"><img class="is-rounded" src="{{figure.full_data.profile_image_url|to_https}}" alt="Profile Image"></a>
+                                <a href="{% url 'figure' %}?account={{figure.user_id}}"><img class="is-rounded" src="{{figure.full_data.profile_image_url|to_https}}" onerror="this.src = '{% static 'tracker/default_profile.png' %}'" alt="Profile Image"></a>
                             </figure>
                         </div>
                         <div class="column">
