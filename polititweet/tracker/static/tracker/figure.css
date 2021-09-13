@@ -4,13 +4,13 @@
         min-width: 350px;
         margin-right: 22px;
     }
+}
 
-    .grid {
-        max-height: 630px;
-    }
+.grid {
+    flex-flow: row wrap;
 }
 
 .tweet-card {
     width: 100%;
-    flex-basis: 40%;
+    align-self: flex-start;
 }
