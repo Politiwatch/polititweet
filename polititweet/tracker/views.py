@@ -26,7 +26,7 @@ def _search(query, *items):
     unused_tokens = [token for token in tokens]
     for token in tokens:
         for item in items:
-            if token.lower() in item.lower():
+            if (token is not None and item is not None) and token.lower() in item.lower():
                 if token in unused_tokens:
                     unused_tokens.remove(token)
     return len(unused_tokens) == 0
@@ -59,6 +59,7 @@ def figures(request):
     page = int(_get(request, "page", default=1))
     if len(search) > 0:
         for figure in figures:
+            print(figure.full_data)
             if _search(
                 search,
                 figure.full_data["name"],
