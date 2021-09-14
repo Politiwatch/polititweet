@@ -46,10 +46,6 @@ class Tweet(models.Model):
         ]
 
     @classmethod
-    def update_search_index(cls):
-        Tweet.objects.all().update(search_vector=SearchVector("full_text"))
-
-    @classmethod
     def get_current_top_deleted_tweet(cls, since=30, use_cache=True, fallback=True):
         if use_cache:
             tweet = cache.get("top_deleted_tweet")
