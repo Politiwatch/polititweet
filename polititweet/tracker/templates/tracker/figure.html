@@ -116,10 +116,10 @@
         {% endif %}
         <br>
         {% if figure.deleted_count != 0 %}
-        <a href="{% url 'tweets' %}?account={{figure.user_id}}&deleted=True" class="button is-danger is-outlined">All
+        <a href="{% url 'tweets' %}?account={{figure.user_id}}&deleted=True" class="button is-danger is-outlined" style="margin-bottom: 0.5rem;">All
             Deleted Tweets</a>&nbsp;&nbsp;
         {% endif %}
-        <a href="{% url 'tweets' %}?account={{figure.user_id}}" class="button is-dark is-outlined">All Archived
+        <a href="{% url 'tweets' %}?account={{figure.user_id}}" class="button is-dark is-outlined" style="margin-bottom: 0.5rem;">All Archived
             Tweets</a>
     </div>
 </div>
