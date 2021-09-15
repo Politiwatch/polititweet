@@ -29,6 +29,11 @@ Tweets | PolitiTweet
 {% block content %}
 
 {% if search_query %}
+<article class="message is-warning">
+    <div class="message-body">
+        <p class="is-medium"><strong>Warning:</strong> PolitiTweet's search functionality is currently incomplete due to performance limitations. We hope to resolve these soon. In the meantime, search will not be reliable.</p>
+    </div>
+</article>
 <article class="message is-info">
     <div class="message-body">
         <p class="is-medium">Your search for <strong>{{search_query}}</strong> yielded <strong>{{total_matched}}</strong>
