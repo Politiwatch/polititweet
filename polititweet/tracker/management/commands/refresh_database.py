@@ -8,7 +8,9 @@ class Command(BaseCommand):
 
     def handle(self, *args, **options):
         self.stdout.write("Loading accounts to update...")
-        users = list(User.objects.all()) # Do actually load everything from the database
+        users = list(
+            User.objects.all()
+        )  # Do actually load everything from the database
         self.stdout.write("Loaded %s accounts to update." % str(len(users)))
 
         for i, user in enumerate(users):
