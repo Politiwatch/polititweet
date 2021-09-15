@@ -90,11 +90,6 @@ class Tweet(models.Model):
 
         super(Tweet, self).save(*args, **kwargs)
 
-        # Update the index, post-save
-        Tweet.objects.filter(tweet_id=self.tweet_id).update(
-            search_vector=SearchVector("full_text")
-        )
-
     def update_user_metadata(self):
         """Updates the associated user with the raw user data in this tweet"""
         if "user" in self.full_data:
