@@ -18,6 +18,7 @@ class User(models.Model):
     )  # big integer, b/c you never know
     flagged = models.BooleanField(default=False)
     monitored = models.BooleanField(default=True)
+    removal_requested = models.BooleanField(default=False)
 
     def latest_tweet(self):
         return Tweet.objects.filter(user=self).order_by("-tweet_id").first()

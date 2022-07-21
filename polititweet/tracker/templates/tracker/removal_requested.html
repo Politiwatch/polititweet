@@ -1,0 +1,20 @@
+{% extends 'tracker/base.html' %}
+
+{% block title %}{{explanation}} Removed by Request | PolitiTweet{% endblock %}
+
+{% block body %}
+{% include 'tracker/navbar.html' %}
+<section class="hero is-primary is-bold is-danger is-fullheight-with-navbar">
+    <div class="hero-body">
+        <div class="container">
+            <h1 class="title">
+                {{explanation}} &mdash; Removed by Request
+            </h1>
+            <h2 class="subtitle">
+                This content has been removed from public view on PolitiTweet at the request of the owner.
+            </h2>
+            <a class="button is-medium" href="{% url 'index' %}">Go Home</a>
+        </div>
+    </div>
+</section>
+{% endblock %}

@@ -90,6 +90,12 @@ def figures(request):
 def figure(request):
     user_id = _get(request, "account")
     user = get_object_or_404(User, user_id=user_id)
+
+    if user.removal_requested:
+        return render(request, "tracker/removal_requested.html", {
+            "explanation": "@" + user.full_data["screen_name"]
+        }, status=410)
+
     context = {
         "figure": user,
         "active": "overview",
@@ -104,9 +110,18 @@ def figure(request):
 def tweets(request):
     filter_arguments = {}
     user_id = request.GET.get("account", None)
+    
     user = User.objects.filter(user_id=user_id).first()
     if user:
         filter_arguments["user"] = user
+
+        if user.removal_requested:
+            return render(request, "tracker/removal_requested.html", {
+                "explanation": "@" + user.full_data["screen_name"]
+            }, status=410)
+    else:
+        raise Http404()
+
     deleted = request.GET.get("deleted", "")
     if deleted != "":
         filter_arguments["deleted"] = deleted == "True"
@@ -145,6 +160,12 @@ def tweet(request):
     if request.GET.get("raw", "False") == "True":
         return JsonResponse(tweet.full_data)
     figure = tweet.user
+
+    if figure.removal_requested:
+        return render(request, "tracker/removal_requested.html", {
+            "explanation": "@" + figure.full_data["screen_name"]
+        }, status=410)
+
     active = "deleted" if tweet.deleted else "archive"
     context = {
         "tweet": tweet,

@@ -17,11 +17,16 @@
                     {{figure.full_data.description|default:"<span class='has-text-grey'>No Description</span>"}}
                 </p>
                 <div class="tags small-top-margin">
+                    {% if figure.removal_requested %}
+                    <span class="tag is-danger">Removed by Request</span>
+                    {% else %}
                     {% if figure.deleted_count > 0 %}
                     <span class="tag is-danger">{{figure.deleted_count|intcomma}} Deleted</span>
                     {% else %}
                     <span class="tag">No Deletions</span>
                     {% endif %}
+                    {% endif %}
+
                     {% if not figure.monitored %}
                     <span class="tag is-info">No Longer Monitored</span>
                     {% endif %}
