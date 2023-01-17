@@ -92,9 +92,12 @@ def figure(request):
     user = get_object_or_404(User, user_id=user_id)
 
     if user.removal_requested:
-        return render(request, "tracker/removal_requested.html", {
-            "explanation": "@" + user.full_data["screen_name"]
-        }, status=410)
+        return render(
+            request,
+            "tracker/removal_requested.html",
+            {"explanation": "@" + user.full_data["screen_name"]},
+            status=410,
+        )
 
     context = {
         "figure": user,
@@ -110,24 +113,24 @@ def figure(request):
 def tweets(request):
     filter_arguments = {}
     user_id = request.GET.get("account", None)
-    
+
     user = User.objects.filter(user_id=user_id).first()
     if user:
         filter_arguments["user"] = user
 
         if user.removal_requested:
-            return render(request, "tracker/removal_requested.html", {
-                "explanation": "@" + user.full_data["screen_name"]
-            }, status=410)
+            return render(
+                request,
+                "tracker/removal_requested.html",
+                {"explanation": "@" + user.full_data["screen_name"]},
+                status=410,
+            )
     else:
         raise Http404()
 
     deleted = request.GET.get("deleted", "")
     if deleted != "":
         filter_arguments["deleted"] = deleted == "True"
-    search = request.GET.get("search", "")
-    if search != "":
-        filter_arguments["search_vector"] = search
     page = int(_get(request, "page", default=1))
 
     matched_tweets = (
@@ -143,13 +146,11 @@ def tweets(request):
         "figure": user,
         "total_matched": matched_tweets.count(),
         "active": "deleted" if deleted else "archive",
-        "search_query": search,
         "page_obj": page_obj,
         "tweets": page_obj,
         "paginator": paginator,
         "deleted_filter": deleted,
-        "url_parameters": "&deleted=%s&account=%s&search=%s"
-        % (deleted or "", user_id or "", search or ""),
+        "url_parameters": "&deleted=%s&account=%s" % (deleted or "", user_id or ""),
     }
     return render(request, "tracker/tweets.html", context)
 
@@ -162,9 +163,12 @@ def tweet(request):
     figure = tweet.user
 
     if figure.removal_requested:
-        return render(request, "tracker/removal_requested.html", {
-            "explanation": "@" + figure.full_data["screen_name"]
-        }, status=410)
+        return render(
+            request,
+            "tracker/removal_requested.html",
+            {"explanation": "@" + figure.full_data["screen_name"]},
+            status=410,
+        )
 
     active = "deleted" if tweet.deleted else "archive"
     context = {

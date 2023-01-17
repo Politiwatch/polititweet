@@ -28,25 +28,20 @@ Tweets | PolitiTweet
 
 {% block content %}
 
-{% if search_query %}
-<article class="message is-warning">
-    <div class="message-body">
-        <p class="is-medium"><strong>Warning:</strong> PolitiTweet's search functionality is currently incomplete due to performance limitations. We hope to resolve these soon. In the meantime, search will not be reliable.</p>
-    </div>
-</article>
 <article class="message is-info">
-    <div class="message-body">
-        <p class="is-medium">Your search for <strong>{{search_query}}</strong> yielded <strong>{{total_matched}}</strong>
-            results.</p>
-    </div>
+  <div class="message-body">
+    <strong>Deleted tweet detection</strong> is currently running at reduced
+    capacity due to changes to the Twitter API. Some tweets that have been
+    deleted by the tweet author may not be labeled as deleted in the PolitiTweet
+    interface.
+  </div>
 </article>
-{% endif %}
 
 <p class="is-size-7 has-text-grey">
 Showing page <strong>{{page_obj.number}}</strong> of <strong>{{paginator.num_pages}}</strong>.
 <br><br></p>
 
-{% if total_matched == 0 and not search_query %}
+{% if total_matched == 0 %}
 <article class="message is-info">
     <div class="message-body">
         <strong>Nothing to see here.</strong> PolitiTweet did not find any tweets to show you.
